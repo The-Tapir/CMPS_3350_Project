@@ -4,14 +4,10 @@
 #define _nwardinsky_H_
 
 #include <iostream>
-#include <ctime>
+#include <chrono>
+#include <typeinfo>
 
-
-
-
-
-
-
+void timer();
 
 
 
