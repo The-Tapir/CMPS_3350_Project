@@ -1,59 +1,53 @@
-//Modified by: Mostafa Abadi
-//Date: 09/25/2023
-//Purpose: My Coding contribution towards 3350 Project
-
-//This will make the car move left or right or make it go straight and also     go down the road.
-  /*  g.cameraPosition[2] -= 0.1;
-//The function below will decide how much the camera moves left to right.
-    g.cameraPosition[0] = 2.0 + sin(g.cameraPosition[2]*0.2);
-
-
-    //Below is my code for just outputting an oval race-car track.
-    
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/glut.h>
+#include <cmath>
+
+const int numSegments = 800;
+const float outerRadius = 10.0f;
+const float innerRadius = 15.0f;
+const float trackHeight = 1.0f; // Height of the track
 
 void drawOvalTrack() {
-    glPushMatrix();
-    glTranslatef(0.0f, 0.0f, -10.0f);  // Translate the track down the Z-axis
+    // Draw the white line for the track
+    glColor3f(1.0f, 1.0f, 1.0f); // White color
+    glLineWidth(12.0f); // Increase line width for the start and finish line
+
+    glBegin(GL_LINES);
+    glVertex3f(-outerRadius - 12.0f, 0.0f, -trackHeight / 2.0f);
+    glVertex3f(-outerRadius - 12.0f, 0.0f, trackHeight / 2.0f);
+    glVertex3f(outerRadius + 12.0f, 0.0f, -trackHeight / 2.0f);
+    glVertex3f(outerRadius + 12.0f, 0.0f, trackHeight / 2.0f);
+    glEnd();
 
     // Draw the outer oval shape
-    glColor3f(0.0f, 0.8f, 0.0f);  // Green color
-    glBegin(GL_LINE_LOOP);
-    for (float angle = 0.0f; angle < 2.0f * 3.14159f; angle += 0.1f) {
-        float x = 10.0f * cos(angle);
-        float y = 5.0f * sin(angle);
-        glVertex3f(x, y, 0.0f);
+    glColor3f(0.0f, 0.8f, 0.0f); // Green color
+
+    glBegin(GL_QUAD_STRIP);
+    for (int i = 0; i <= numSegments; ++i) {
+        float theta = (2.0f * 3.1415926f * i) / numSegments;
+        float x1 = outerRadius * cos(theta);
+        float y1 = outerRadius * sin(theta);
+        float x2 = innerRadius * cos(theta);
+        float y2 = innerRadius * sin(theta);
+
+        glVertex3f(x1, y1, -trackHeight / 2.0f);
+        glVertex3f(x1, y1, trackHeight / 2.0f);
+        glVertex3f(x2, y2, -trackHeight / 2.0f);
+        glVertex3f(x2, y2, trackHeight / 2.0f);
     }
     glEnd();
-
-    // Draw the inner oval shape (for the inner part of the track)
-    glColor3f(0.0f, 0.0f, 0.0f);  // Black color
-    glBegin(GL_LINE_LOOP);
-    for (float angle = 0.0f; angle < 2.0f * 3.14159f; angle += 0.1f) {
-        float x = 8.0f * cos(angle);
-        float y = 3.0f * sin(angle);
-        glVertex3f(x, y, 0.0f);
-    }
-    glEnd();
-
-    // Draw the start/finish line
-    glColor3f(1.0f, 1.0f, 1.0f);  // White color
-    glLineWidth(4.0f);
-    glBegin(GL_LINES);
-    glVertex3f(-8.0f, 0.0f, 0.0f);
-    glVertex3f(8.0f, 0.0f, 0.0f);
-    glEnd();
-
-    glPopMatrix();
 }
 
 void display() {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    // Set up your camera and view here if needed
+    // Set up a perspective projection for a 3D view
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0f, 800.0f / 600.0f, 1.0f, 50.0f);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(15.0f, 0.0f, 15.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
     drawOvalTrack();
 
@@ -62,13 +56,15 @@ void display() {
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(800, 600);
-    glutCreateWindow("Simple Race Track");
+    glutCreateWindow("3D Race Track");
+
+    glEnable(GL_DEPTH_TEST);
 
     glutDisplayFunc(display);
     glutMainLoop();
 
     return 0;
 }
-*/
+
