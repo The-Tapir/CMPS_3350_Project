@@ -18,6 +18,7 @@
 #include <GL/glu.h>
 #include "log.h"
 #include "fonts.h"
+#include "nwardinsky.h"
 
 typedef float Flt;
 typedef Flt Vec[3];
@@ -154,7 +155,7 @@ public:
 	void set_title() {
 		//Set the window title bar.
 		XMapWindow(dpy, win);
-		XStoreName(dpy, win, "car demo");
+		XStoreName(dpy, win, "Jerry The Race Car Driver");
 	}
 	bool getXPending() {
 		return XPending(dpy);
@@ -261,6 +262,7 @@ int check_keys(XEvent *e)
 {
 	//Was there input from the keyboard?
 	if (e->type == KeyPress) {
+        //look up what library XLookupKeysym(&e->xkey, 0)
 		int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
 		switch(key) {
 			case XK_1:
@@ -277,6 +279,18 @@ int check_keys(XEvent *e)
 				break;
 			case XK_s:
 				break;
+            //Code added to try and make car move front and back    
+            //-----------------------------------------------------
+            case XK_Tab:
+                timer();
+                break;
+            case XK_Down:
+                g.cameraPosition[2] += 0.1;
+                break;
+            case XK_Up:
+                g.cameraPosition[2] -= 0.1;
+                break;
+            //-----------------------------------------------------
 			case XK_Escape:
 				return 1;
 		}
@@ -463,9 +477,11 @@ void drawStreet()
 }
 
 void physics()
-{
-	g.cameraPosition[2] -= 0.1;
-	g.cameraPosition[0] = 1.0 + sin(g.cameraPosition[2]*0.3);
+{   
+    //Makes camera go down the road
+//	g.cameraPosition[2] -= 0.1;
+    //Makes camera sway left and right
+//	g.cameraPosition[0] = 1.0 + sin(g.cameraPosition[2]*0.3);
 }
 
 void render()
@@ -500,11 +516,14 @@ void render()
 	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
 	//glDisable(GL_DEPTH_TEST);
-	//glDisable(GL_CULL_FACE);
+    //glDisable(GL_CULL_FACE);
 	r.bot = g.yres - 20;
 	r.left = 10;
 	r.center = 0;
-	ggprint8b(&r, 16, 0x00887766, "car framework");
+    //------------------------------------------
+    //Putting Stopwatch
+    //------------------------------------------
+	ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	glPopAttrib();
 }
 

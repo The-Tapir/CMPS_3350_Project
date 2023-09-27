@@ -1,7 +1,7 @@
 all: car
 
-car: car.cpp
-	g++ car.cpp -Wall -lX11 -lGL -lGLU -lm ./libggfonts.a -ocar
+car: car.cpp nwardinsky.cpp
+	g++ car.cpp nwardinsky.cpp -Wall -lX11 -lGL -lGLU -lm ./libggfonts.a -ocar
 
 clean:
 	rm -f car
