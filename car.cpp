@@ -19,10 +19,15 @@
 #include "log.h"
 #include "fonts.h"
 #include "nwardinsky.h"
-
+#include <string>
 typedef float Flt;
 typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
+
+//-----------------------------
+//Variables added by Nathan
+int timed = 0;
+//-----------------------------
 //some defined macros
 #define MakeVector(x, y, z, v) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)
 #define VecNegate(a) (a)[0]=(-(a)[0]); (a)[1]=(-(a)[1]); (a)[2]=(-(a)[2]);
@@ -282,7 +287,7 @@ int check_keys(XEvent *e)
             //Code added to try and make car move front and back    
             //-----------------------------------------------------
             case XK_Tab:
-                timer();
+                timed = timer();
                 break;
             case XK_Down:
                 g.cameraPosition[2] += 0.1;
@@ -522,6 +527,10 @@ void render()
 	r.center = 0;
     //------------------------------------------
     //Putting Stopwatch
+    std::string text = "Time was: ";
+    text += std::to_string(timed);
+
+	ggprint8b(&r, 16, 0x00887766, text.c_str()); 
     //------------------------------------------
 	ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	glPopAttrib();

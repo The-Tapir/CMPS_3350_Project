@@ -6,18 +6,8 @@
 #include <iostream>
 #include <chrono>
 #include <typeinfo>
+#include <string>
 
-void timer();
-
-
-
-
-
-
-
-
-
-
-
+int timer();
 
 #endif
