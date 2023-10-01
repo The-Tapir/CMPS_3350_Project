@@ -2,7 +2,7 @@
 #define MABADI_H
 
 #include <X11/Xlib.h>
-//#include <GL/glx.h>
+#include <GL/glx.h>
 
 class RoadRacetrack {
 public:
@@ -11,7 +11,8 @@ public:
     int check_keys(XEvent *e);
     void physics();
     void render();
-//private:
+    void drawRoad();
+    //private:
     //void drawRoad();
     // Add private members and methods for your racetrack logic
 };
