@@ -1,70 +1,109 @@
-//#include <GL/glut.h>
-#include <cmath>
+//Name: Mostafa Abadi
+//Created: September 26th, 2023
 
-const int numSegments = 800;
-const float outerRadius = 10.0f;
-const float innerRadius = 15.0f;
-const float trackHeight = 1.0f; // Height of the track
 
-void drawOvalTrack() {
-    // Draw the white line for the track
-    glColor3f(1.0f, 1.0f, 1.0f); // White color
-    glLineWidth(12.0f); // Increase line width for the start and finish line
 
-    glBegin(GL_LINES);
-    glVertex3f(-outerRadius - 12.0f, 0.0f, -trackHeight / 2.0f);
-    glVertex3f(-outerRadius - 12.0f, 0.0f, trackHeight / 2.0f);
-    glVertex3f(outerRadius + 12.0f, 0.0f, -trackHeight / 2.0f);
-    glVertex3f(outerRadius + 12.0f, 0.0f, trackHeight / 2.0f);
+#include <X11/Xlib.h>
+#include <GL/gl.h>
+#include <GL/glx.h>
+#include <GL/glu.h>
+#include "log.h"
+#include "fonts.h"
+#include "mabadi.h"
+
+
+typedef float Flt;
+typedef Flt Vec[3];
+typedef Flt Matrix[4][4];
+
+// The functions below will be anle  to draw the racetrack
+void drawRacetrack() {
+    glPushMatrix();
+    glColor3f(0.2f, 0.2f, 0.2f);
+    
+    // These fucntions below will decide the width and length of the track.
+    float trackWidth = 10.0f;
+    float trackLength = 100.0f;
+    
+    glBegin(GL_QUADS);
+    glVertex3f(-trackWidth, 0.0f, -trackLength);
+    glVertex3f(trackWidth, 0.0f, -trackLength);
+    glVertex3f(trackWidth, 0.0f, trackLength);
+    glVertex3f(-trackWidth, 0.0f, trackLength);
     glEnd();
 
-    // Draw the outer oval shape
-    glColor3f(0.0f, 0.8f, 0.0f); // Green color
+    glPopMatrix();
+}
 
-    glBegin(GL_QUAD_STRIP);
-    for (int i = 0; i <= numSegments; ++i) {
-        float theta = (2.0f * 3.1415926f * i) / numSegments;
-        float x1 = outerRadius * cos(theta);
-        float y1 = outerRadius * sin(theta);
-        float x2 = innerRadius * cos(theta);
-        float y2 = innerRadius * sin(theta);
+void init() {
+    
+}
 
-        glVertex3f(x1, y1, -trackHeight / 2.0f);
-        glVertex3f(x1, y1, trackHeight / 2.0f);
-        glVertex3f(x2, y2, -trackHeight / 2.0f);
-        glVertex3f(x2, y2, trackHeight / 2.0f);
+void init_opengl() {
+    
+}
+
+void check_mouse(XEvent *e) {
+    
+}
+
+int check_keys(XEvent *e) {
+    // I will handle keyboard events here
+    return 0;
+}
+
+void physics() {
+    //I will deal with physics aspect/game logic here
+}
+
+void render() {
+    Rect r;
+
+    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    
+    // This functions below will drawk the racetrack
+    drawRacetrack();
+
+    
+
+    ggprint8b(&r, 16, 0x00887766, "Time: 0");
+}
+
+int main() {
+    init_opengl();
+    int done = 0;
+
+    while (!done) {
+        while (x11.getXPending()) {
+            XEvent e = x11.getXNextEvent();
+            x11.check_resize(&e);
+            check_mouse(&e);
+            done = check_keys(&e);
+        }
+        physics();
+        render();
+        x11.swapBuffers();
     }
-    glEnd();
+    cleanup_fonts();
+    return 0;
 }
 
-void display() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
+int main() {
+    init_opengl();
+    int done = 0;
 
-    // Set up a perspective projection for a 3D view
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(45.0f, 800.0f / 600.0f, 1.0f, 50.0f);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(15.0f, 0.0f, 15.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-
-    drawOvalTrack();
-
-    glutSwapBuffers();
-}
-
-int main(int argc, char** argv) {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(800, 600);
-    glutCreateWindow("3D Race Track");
-
-    glEnable(GL_DEPTH_TEST);
-
-    glutDisplayFunc(display);
-    glutMainLoop();
-
+    while (!done) {
+        while (x11.getXPending()) {
+            XEvent e = x11.getXNextEvent();
+            x11.check_resize(&e);
+            check_mouse(&e);
+            done = check_keys(&e);
+        }
+        physics();
+        render();
+        x11.swapBuffers();
+    }
+    cleanup_fonts();
     return 0;
 }
 

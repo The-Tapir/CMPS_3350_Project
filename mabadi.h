@@ -1,21 +1,11 @@
-#ifndef MABADI_H
-#define MABADI_H
+//Author: Mostafa Abadi
+//Created: Setemmber 26th, 2023
 
-#include <X11/Xlib.h>
-#include <GL/glx.h>
+#ifndef _MABADI_H_
+#define _MABADI_H_
 
-class RoadRacetrack {
-public:
-    RoadRacetrack();
-    void check_mouse(XEvent *e);
-    int check_keys(XEvent *e);
-    void physics();
-    void render();
-    void drawRoad();
-    //private:
-    //void drawRoad();
-    // Add private members and methods for your racetrack logic
-};
+// Declare  the racetrack function below:
+void drawRacetrack();
 
-#endif
+#endif // _MABADI_H_
 
