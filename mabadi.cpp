@@ -1,4 +1,4 @@
-#include <GL/glut.h>
+//#include <GL/glut.h>
 #include <cmath>
 
 const int numSegments = 800;
