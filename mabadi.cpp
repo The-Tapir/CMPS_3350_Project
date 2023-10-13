@@ -7,8 +7,6 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
-#include "log.h"
-#include "fonts.h"
 #include "mabadi.h"
 
 
