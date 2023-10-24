@@ -494,10 +494,12 @@ void physics()
 
 
 //
+    total_physics_function_calls(false);
 }
 
 void render()
 {
+    total_render_function_calls(false);
 	Rect r;
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	//
@@ -540,7 +542,11 @@ void render()
 	ggprint8b(&r, 16, 0x00887766, text.c_str()); 
     //------------------------------------------
     ggprint13(&r, 16, 0x00ffff00, "sec running time %i",
-        total_running_time(true));    
+        total_running_time(true));
+    ggprint13(&r, 16, 0x00ffff00, "render calls: %i",
+        total_render_function_calls(true));
+    ggprint13(&r, 16, 0x00ffff00, "physics calls: %i",
+        total_physics_function_calls(true));    
     //------------------------------------------
 	ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	glPopAttrib();
