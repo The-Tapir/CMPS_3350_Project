@@ -19,14 +19,23 @@
 #include "log.h"
 #include "fonts.h"
 #include "nwardinsky.h"
+#include "dayeni.h"
 #include <string>
 typedef float Flt;
 typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
 
 //-----------------------------
+
+
 //Variables added by Nathan
 int timed = 0;
+
+//Variables added by David
+int selectedOption = 0;// 0 represents "Play" as the default selection
+enum GameState { MENU, PLAY, HIGHSCORE, EXIT};
+GameState gameState = MENU;
+
 //-----------------------------
 //some defined macros
 #define MakeVector(x, y, z, v) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)
@@ -65,6 +74,7 @@ void init_opengl();
 void check_mouse(XEvent *e);
 int check_keys(XEvent *e);
 void physics();
+void drawStreet();
 void render();
 
 class Global {
@@ -265,15 +275,37 @@ void check_mouse(XEvent *e)
 		savey = e->xbutton.y;
 	}
 }
-
 int check_keys(XEvent *e)
 {
 	//Was there input from the keyboard?
 	if (e->type == KeyPress) {
-        
         //look up what library XLookupKeysym(&e->xkey, 0)
 		int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
 		switch(key) {
+			case XK_Up:
+				if(selectedOption > 0) {
+					selectedOption--;
+				}
+                g.cameraPosition[2] -= 0.1;
+                break;
+				break;
+			case XK_Down:
+				if(selectedOption < 2) {
+					selectedOption++;
+				}
+                g.cameraPosition[2] += 0.1;
+                break;
+				break;
+			case XK_Return:
+				if(selectedOption == 0) {
+					gameState = PLAY;
+					drawStreet();
+				} else if(selectedOption == 1) {
+					gameState = HIGHSCORE;
+				} else if(selectedOption == 2) {
+					gameState = EXIT;
+				}
+				break;
 			case XK_1:
 				break;
 			case XK_Right:
@@ -288,16 +320,10 @@ int check_keys(XEvent *e)
 				break;
 			case XK_s:
 				break;
-            //Code added to make car move front and back    
+            //Code added to try and make car move front and back    
             //-----------------------------------------------------
             case XK_Tab:
                 timed = timer();
-                break;
-            case XK_Down:
-                g.cameraPosition[2] += 0.1;
-                break;
-            case XK_Up:
-                g.cameraPosition[2] -= 0.1;
                 break;
             //-----------------------------------------------------
 			case XK_Escape:
@@ -516,8 +542,16 @@ void render()
 		up[0], up[1], up[2]);
 	glLightfv(GL_LIGHT0, GL_POSITION, g.lightPosition);
 	//
-	drawStreet();
-	//
+	if (gameState == MENU) {
+        drawMenu(g.xres, g.yres, selectedOption);
+    	} else if (gameState == PLAY) {
+        drawStreet();
+        physics();
+    	} else if (gameState == HIGHSCORE) {
+        drawHighscore();
+	} else if (gameState == EXIT) {
+		
+	}
 	//
 	//
 	//
