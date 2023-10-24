@@ -180,6 +180,9 @@ int main()
 {
 	init_opengl();
 	int done = 0;
+    //----------------------------
+    total_running_time(false);
+    //----------------------------
 	while (!done) {
 		while (x11.getXPending()) {
 			XEvent e = x11.getXNextEvent();
@@ -267,6 +270,7 @@ int check_keys(XEvent *e)
 {
 	//Was there input from the keyboard?
 	if (e->type == KeyPress) {
+        
         //look up what library XLookupKeysym(&e->xkey, 0)
 		int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
 		switch(key) {
@@ -284,7 +288,7 @@ int check_keys(XEvent *e)
 				break;
 			case XK_s:
 				break;
-            //Code added to try and make car move front and back    
+            //Code added to make car move front and back    
             //-----------------------------------------------------
             case XK_Tab:
                 timed = timer();
@@ -487,6 +491,9 @@ void physics()
 //	g.cameraPosition[2] -= 0.1;
     //Makes camera sway left and right
 //	g.cameraPosition[0] = 1.0 + sin(g.cameraPosition[2]*0.3);
+
+
+//
 }
 
 void render()
@@ -531,6 +538,9 @@ void render()
     text += std::to_string(timed);
 
 	ggprint8b(&r, 16, 0x00887766, text.c_str()); 
+    //------------------------------------------
+    ggprint13(&r, 16, 0x00ffff00, "sec running time %i",
+        total_running_time(true));    
     //------------------------------------------
 	ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	glPopAttrib();

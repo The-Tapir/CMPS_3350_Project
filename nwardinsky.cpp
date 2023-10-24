@@ -19,19 +19,33 @@ int timer() {
     }
 
     // stop timing
-    else {
+    if (began) {
     auto stop = steady_clock::now();
-    
-    // stop - start will give you the time that passed
-    /* std::cout << "It took " 
-              << (duration_cast<milliseconds>(stop - start).count()) / 1000
-              << " seconds!\n";*/
-	//ggprint8b(&r, 16, 0x00887766, "apples and oranges");
-    //std::cin.get();
+   
     time = ((duration_cast<milliseconds>(stop - start).count()) / 1000);
-    //std::cout << "It took " << time << "  seconds!\n";
     began = false;   
     return time;
     }
+    return 0;
 }
 
+
+int total_running_time(const bool get)
+{
+    static int firsttime = 1;
+    static int start_time;
+    if (firsttime) {
+        start_time = time(NULL);
+        firsttime = 0;
+    }
+    if (get) {
+        return time(NULL) - start_time;
+    }
+    return 0;
+}
+
+int total_render_function_calls(const bool get)
+{
+    static int firsttime = 1;
+    
+    

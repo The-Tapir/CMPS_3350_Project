@@ -9,5 +9,6 @@
 #include <string>
 
 int timer();
+int total_running_time(bool);
 
 #endif
