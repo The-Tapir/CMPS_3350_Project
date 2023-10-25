@@ -85,9 +85,9 @@ float mouseMovement(XEvent *e, const bool get) {
 
 
 /*
-   void exitGame() {
-   cleanup_fonts(); // Cleanup any resources
-   XCloseDisplay(x11.dpy); // Close the X display
-   exit(0); // Exit the program
-   }
-   */
+void exitGame() {
+	cleanup_fonts(); // Cleanup any resources
+	return 0; // Close the X display
+	exit(0); // Exit the program
+}
+*/

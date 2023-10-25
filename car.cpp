@@ -48,21 +48,21 @@ GameState gameState = MENU;
 #define VecCopy(a,b) (b)[0]=(a)[0];(b)[1]=(a)[1];(b)[2]=(a)[2];
 #define VecAdd(a,b,c) \
 	(c)[0]=(a)[0]+(b)[0];\
-	(c)[1]=(a)[1]+(b)[1];\
-	(c)[2]=(a)[2]+(b)[2]
+(c)[1]=(a)[1]+(b)[1];\
+(c)[2]=(a)[2]+(b)[2]
 #define VecSub(a,b,c) \
 	(c)[0]=(a)[0]-(b)[0]; \
-	(c)[1]=(a)[1]-(b)[1]; \
-	(c)[2]=(a)[2]-(b)[2]
+(c)[1]=(a)[1]-(b)[1]; \
+(c)[2]=(a)[2]-(b)[2]
 #define VecS(A,a,b) (b)[0]=(A)*(a)[0]; (b)[1]=(A)*(a)[1]; (b)[2]=(A)*(a)[2]
 #define VecAddS(A,a,b,c) \
 	(c)[0]=(A)*(a)[0]+(b)[0]; \
-	(c)[1]=(A)*(a)[1]+(b)[1]; \
-	(c)[2]=(A)*(a)[2]+(b)[2]
+(c)[1]=(A)*(a)[1]+(b)[1]; \
+(c)[2]=(A)*(a)[2]+(b)[2]
 #define VecCross(a,b,c) \
 	(c)[0]=(a)[1]*(b)[2]-(a)[2]*(b)[1]; \
-	(c)[1]=(a)[2]*(b)[0]-(a)[0]*(b)[2]; \
-	(c)[2]=(a)[0]*(b)[1]-(a)[1]*(b)[0]
+(c)[1]=(a)[2]*(b)[0]-(a)[0]*(b)[2]; \
+(c)[2]=(a)[0]*(b)[1]-(a)[1]*(b)[0]
 #define VecZero(v) (v)[0]=0.0;(v)[1]=0.0;v[2]=0.0
 #define ABS(a) (((a)<0)?(-(a)):(a))
 #define SGN(a) (((a)<0)?(-1):(1))
@@ -80,111 +80,111 @@ void drawStreet();
 void render();
 
 class Global {
-public:
-	int xres, yres;
-	Flt aspectRatio;
-	Vec cameraPosition;
-	GLfloat lightPosition[4];
-	Global() {
-		//constructor
-		xres=640;
-		yres=480;
-		aspectRatio = (GLfloat)xres / (GLfloat)yres;
-		MakeVector(0.0, 1.0, 8.0, cameraPosition);
-		//light is up high, right a little, toward a little
-		MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
-		lightPosition[3] = 1.0f;
-	}
+	public:
+		int xres, yres;
+		Flt aspectRatio;
+		Vec cameraPosition;
+		GLfloat lightPosition[4];
+		Global() {
+			//constructor
+			xres=640;
+			yres=480;
+			aspectRatio = (GLfloat)xres / (GLfloat)yres;
+			MakeVector(0.0, 1.0, 8.0, cameraPosition);
+			//light is up high, right a little, toward a little
+			MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
+			lightPosition[3] = 1.0f;
+		}
 } g;
 
 class X11_wrapper {
-private:
-	Display *dpy;
-	Window win;
-	GLXContext glc;
-public:
-	X11_wrapper() {
-		//Look here for information on XVisualInfo parameters.
-		//http://www.talisman.org/opengl-1.1/Reference/glXChooseVisual.html
-		Window root;
-		GLint att[] = { GLX_RGBA,
-						GLX_STENCIL_SIZE, 2,
-						GLX_DEPTH_SIZE, 24,
-						GLX_DOUBLEBUFFER, None };
-		//GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
-		//GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, None };
-		//XVisualInfo *vi;
-		Colormap cmap;
-		XSetWindowAttributes swa;
-		setup_screen_res(640, 480);
-		dpy = XOpenDisplay(NULL);
-		if (dpy == NULL) {
-			printf("\n\tcannot connect to X server\n\n");
-			exit(EXIT_FAILURE);
+	private:
+		Display *dpy;
+		Window win;
+		GLXContext glc;
+	public:
+		X11_wrapper() {
+			//Look here for information on XVisualInfo parameters.
+			//http://www.talisman.org/opengl-1.1/Reference/glXChooseVisual.html
+			Window root;
+			GLint att[] = { GLX_RGBA,
+				GLX_STENCIL_SIZE, 2,
+				GLX_DEPTH_SIZE, 24,
+				GLX_DOUBLEBUFFER, None };
+			//GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+			//GLint att[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, None };
+			//XVisualInfo *vi;
+			Colormap cmap;
+			XSetWindowAttributes swa;
+			setup_screen_res(640, 480);
+			dpy = XOpenDisplay(NULL);
+			if (dpy == NULL) {
+				printf("\n\tcannot connect to X server\n\n");
+				exit(EXIT_FAILURE);
+			}
+			root = DefaultRootWindow(dpy);
+			XVisualInfo *vi = glXChooseVisual(dpy, 0, att);
+			if (vi == NULL) {
+				printf("\n\tno appropriate visual found\n\n");
+				exit(EXIT_FAILURE);
+			} 
+			cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
+			swa.colormap = cmap;
+			swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask |
+				StructureNotifyMask | SubstructureNotifyMask;
+			win = XCreateWindow(dpy, root, 0, 0, g.xres, g.yres, 0,
+					vi->depth, InputOutput, vi->visual,
+					CWColormap | CWEventMask, &swa);
+			set_title();
+			glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
+			glXMakeCurrent(dpy, win, glc);
 		}
-		root = DefaultRootWindow(dpy);
-		XVisualInfo *vi = glXChooseVisual(dpy, 0, att);
-		if (vi == NULL) {
-			printf("\n\tno appropriate visual found\n\n");
-			exit(EXIT_FAILURE);
-		} 
-		cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
-		swa.colormap = cmap;
-		swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask |
-							StructureNotifyMask | SubstructureNotifyMask;
-		win = XCreateWindow(dpy, root, 0, 0, g.xres, g.yres, 0,
-								vi->depth, InputOutput, vi->visual,
-								CWColormap | CWEventMask, &swa);
-		set_title();
-		glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
-		glXMakeCurrent(dpy, win, glc);
-	}
-	~X11_wrapper() {
-		XDestroyWindow(dpy, win);
-		XCloseDisplay(dpy);
-	}
-	void setup_screen_res(const int w, const int h) {
-		g.xres = w;
-		g.yres = h;
-		g.aspectRatio = (GLfloat)g.xres / (GLfloat)g.yres;
-	}
-	void check_resize(XEvent *e) {
-		//The ConfigureNotify is sent by the
-		//server if the window is resized.
-		if (e->type != ConfigureNotify)
-			return;
-		XConfigureEvent xce = e->xconfigure;
-		if (xce.width != g.xres || xce.height != g.yres) {
-			//Window size did change.
-			reshape_window(xce.width, xce.height);
+		~X11_wrapper() {
+			XDestroyWindow(dpy, win);
+			XCloseDisplay(dpy);
 		}
-	}
-	void reshape_window(int width, int height) {
-		//window has been resized.
-		setup_screen_res(width, height);
-		//
-		glViewport(0, 0, (GLint)width, (GLint)height);
-		glMatrixMode(GL_PROJECTION); glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW); glLoadIdentity();
-		glOrtho(0, g.xres, 0, g.yres, -1, 1);
-		set_title();
-	}
-	void set_title() {
-		//Set the window title bar.
-		XMapWindow(dpy, win);
-		XStoreName(dpy, win, "Jerry The Race Car Driver");
-	}
-	bool getXPending() {
-		return XPending(dpy);
-	}
-	XEvent getXNextEvent() {
-		XEvent e;
-		XNextEvent(dpy, &e);
-		return e;
-	}
-	void swapBuffers() {
-		glXSwapBuffers(dpy, win);
-	}
+		void setup_screen_res(const int w, const int h) {
+			g.xres = w;
+			g.yres = h;
+			g.aspectRatio = (GLfloat)g.xres / (GLfloat)g.yres;
+		}
+		void check_resize(XEvent *e) {
+			//The ConfigureNotify is sent by the
+			//server if the window is resized.
+			if (e->type != ConfigureNotify)
+				return;
+			XConfigureEvent xce = e->xconfigure;
+			if (xce.width != g.xres || xce.height != g.yres) {
+				//Window size did change.
+				reshape_window(xce.width, xce.height);
+			}
+		}
+		void reshape_window(int width, int height) {
+			//window has been resized.
+			setup_screen_res(width, height);
+			//
+			glViewport(0, 0, (GLint)width, (GLint)height);
+			glMatrixMode(GL_PROJECTION); glLoadIdentity();
+			glMatrixMode(GL_MODELVIEW); glLoadIdentity();
+			glOrtho(0, g.xres, 0, g.yres, -1, 1);
+			set_title();
+		}
+		void set_title() {
+			//Set the window title bar.
+			XMapWindow(dpy, win);
+			XStoreName(dpy, win, "Jerry The Race Car Driver");
+		}
+		bool getXPending() {
+			return XPending(dpy);
+		}
+		XEvent getXNextEvent() {
+			XEvent e;
+			XNextEvent(dpy, &e);
+			return e;
+		}
+		void swapBuffers() {
+			glXSwapBuffers(dpy, win);
+		}
 } x11;
 
 
@@ -192,9 +192,9 @@ int main()
 {
 	init_opengl();
 	int done = 0;
-    //----------------------------
-    total_running_time(false);
-    //----------------------------
+	//----------------------------
+	total_running_time(false);
+	//----------------------------
 	while (!done) {
 		while (x11.getXPending()) {
 			XEvent e = x11.getXNextEvent();
@@ -204,6 +204,9 @@ int main()
 		}
 		physics();
 		render();
+		if (gameState == EXIT) {
+			return 0;	
+		}
 		x11.swapBuffers();
 	}
 	cleanup_fonts();
@@ -276,28 +279,28 @@ void check_mouse(XEvent *e)
 		savex = e->xbutton.x;
 		savey = e->xbutton.y;
 	}
-        mouseMovement(e, false);    
+	mouseMovement(e, false);    
 }
 int check_keys(XEvent *e)
 {
 	//Was there input from the keyboard?
 	if (e->type == KeyPress) {
-        //look up what library XLookupKeysym(&e->xkey, 0)
+		//look up what library XLookupKeysym(&e->xkey, 0)
 		int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
 		switch(key) {
 			case XK_Up:
 				if(selectedOption > 0) {
 					selectedOption--;
 				}
-                g.cameraPosition[2] -= 0.1;
-                break;
+				g.cameraPosition[2] -= 0.1;
+				break;
 				break;
 			case XK_Down:
 				if(selectedOption < 2) {
 					selectedOption++;
 				}
-                g.cameraPosition[2] += 0.1;
-                break;
+				g.cameraPosition[2] += 0.1;
+				break;
 				break;
 			case XK_Return:
 				if(selectedOption == 0) {
@@ -323,12 +326,12 @@ int check_keys(XEvent *e)
 				break;
 			case XK_s:
 				break;
-            //Code added to try and make car move front and back    
-            //-----------------------------------------------------
-            case XK_Tab:
-                timed = timer();
-                break;
-            //-----------------------------------------------------
+				//Code added to try and make car move front and back    
+				//-----------------------------------------------------
+			case XK_Tab:
+				timed = timer();
+				break;
+				//-----------------------------------------------------
 			case XK_Escape:
 				break;
 				//return 1;
@@ -344,43 +347,43 @@ void box(float w1, float h1, float d1)
 	float h=h1*0.5;
 	//notice the normals being set
 	glBegin(GL_QUADS);
-		//top
-		glNormal3f( 0.0f, 1.0f, 0.0f);
-		glVertex3f( w, h,-d);
-		glVertex3f(-w, h,-d);
-		glVertex3f(-w, h, d);
-		glVertex3f( w, h, d);
-		// bottom
-		glNormal3f( 0.0f, -1.0f, 0.0f);
-		glVertex3f( w,-h, d);
-		glVertex3f(-w,-h, d);
-		glVertex3f(-w,-h,-d);
-		glVertex3f( w,-h,-d);
-		// front
-		glNormal3f( 0.0f, 0.0f, 1.0f);
-		glVertex3f( w, h, d);
-		glVertex3f(-w, h, d);
-		glVertex3f(-w,-h, d);
-		glVertex3f( w,-h, d);
-		// back
-		glNormal3f( 0.0f, 0.0f, -1.0f);
-		glVertex3f( w,-h,-d);
-		glVertex3f(-w,-h,-d);
-		glVertex3f(-w, h,-d);
-		glVertex3f( w, h,-d);
-		// left side
-		glNormal3f(-1.0f, 0.0f, 0.0f);
-		glVertex3f(-w, h, d);
-		glVertex3f(-w, h,-d);
-		glVertex3f(-w,-h,-d);
-		glVertex3f(-w,-h, d);
-		// Right side
-		glNormal3f( 1.0f, 0.0f, 0.0f);
-		glVertex3f( w, h,-d);
-		glVertex3f( w, h, d);
-		glVertex3f( w,-h, d);
-		glVertex3f( w,-h,-d);
-		glEnd();
+	//top
+	glNormal3f( 0.0f, 1.0f, 0.0f);
+	glVertex3f( w, h,-d);
+	glVertex3f(-w, h,-d);
+	glVertex3f(-w, h, d);
+	glVertex3f( w, h, d);
+	// bottom
+	glNormal3f( 0.0f, -1.0f, 0.0f);
+	glVertex3f( w,-h, d);
+	glVertex3f(-w,-h, d);
+	glVertex3f(-w,-h,-d);
+	glVertex3f( w,-h,-d);
+	// front
+	glNormal3f( 0.0f, 0.0f, 1.0f);
+	glVertex3f( w, h, d);
+	glVertex3f(-w, h, d);
+	glVertex3f(-w,-h, d);
+	glVertex3f( w,-h, d);
+	// back
+	glNormal3f( 0.0f, 0.0f, -1.0f);
+	glVertex3f( w,-h,-d);
+	glVertex3f(-w,-h,-d);
+	glVertex3f(-w, h,-d);
+	glVertex3f( w, h,-d);
+	// left side
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glVertex3f(-w, h, d);
+	glVertex3f(-w, h,-d);
+	glVertex3f(-w,-h,-d);
+	glVertex3f(-w,-h, d);
+	// Right side
+	glNormal3f( 1.0f, 0.0f, 0.0f);
+	glVertex3f( w, h,-d);
+	glVertex3f( w, h, d);
+	glVertex3f( w,-h, d);
+	glVertex3f( w,-h,-d);
+	glEnd();
 	glEnd();
 }
 
@@ -466,12 +469,12 @@ void drawStreet()
 	float h = 0.0;
 	glTranslatef(0.0f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
-		//top
-		glNormal3f( 0.0f, 1.0f, 0.0f);
-		glVertex3f( w, h,-d);
-		glVertex3f(-w, h,-d);
-		glVertex3f(-w, h, d);
-		glVertex3f( w, h, d);
+	//top
+	glNormal3f( 0.0f, 1.0f, 0.0f);
+	glVertex3f( w, h,-d);
+	glVertex3f(-w, h,-d);
+	glVertex3f(-w, h, d);
+	glVertex3f( w, h, d);
 	glEnd();
 	glPopMatrix();
 	//double yellow line
@@ -482,23 +485,23 @@ void drawStreet()
 	glPushMatrix();
 	glTranslatef(-0.15f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
-		//top
-		glNormal3f( 0.0f, 1.0f, 0.0f);
-		glVertex3f( w, h,-d);
-		glVertex3f(-w, h,-d);
-		glVertex3f(-w, h, d);
-		glVertex3f( w, h, d);
+	//top
+	glNormal3f( 0.0f, 1.0f, 0.0f);
+	glVertex3f( w, h,-d);
+	glVertex3f(-w, h,-d);
+	glVertex3f(-w, h, d);
+	glVertex3f( w, h, d);
 	glEnd();
 	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(0.15f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
-		//top
-		glNormal3f( 0.0f, 1.0f, 0.0f);
-		glVertex3f( w, h,-d);
-		glVertex3f(-w, h,-d);
-		glVertex3f(-w, h, d);
-		glVertex3f( w, h, d);
+	//top
+	glNormal3f( 0.0f, 1.0f, 0.0f);
+	glVertex3f( w, h,-d);
+	glVertex3f(-w, h,-d);
+	glVertex3f(-w, h, d);
+	glVertex3f( w, h, d);
 	glEnd();
 	glPopMatrix();
 	//guard rails
@@ -517,19 +520,19 @@ void drawStreet()
 
 void physics()
 {   
-    //Makes camera go down the road
-//	g.cameraPosition[2] -= 0.1;
-    //Makes camera sway left and right
-//	g.cameraPosition[0] = 1.0 + sin(g.cameraPosition[2]*0.3);
+	//Makes camera go down the road
+	//	g.cameraPosition[2] -= 0.1;
+	//Makes camera sway left and right
+	//	g.cameraPosition[0] = 1.0 + sin(g.cameraPosition[2]*0.3);
 
 
-//
-    total_physics_function_calls(false);
+	//
+	total_physics_function_calls(false);
 }
 
 void render()
 {
-    total_render_function_calls(false);
+	total_render_function_calls(false);
 	Rect r;
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	//
@@ -541,20 +544,18 @@ void render()
 	//for documentation...
 	Vec up = {0,1,0};
 	gluLookAt(
-		g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
-		g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2]-1.0,
-		up[0], up[1], up[2]);
+			g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
+			g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2]-1.0,
+			up[0], up[1], up[2]);
 	glLightfv(GL_LIGHT0, GL_POSITION, g.lightPosition);
 	//
 	if (gameState == MENU) {
-        drawMenu(g.xres, g.yres, selectedOption);
-    	} else if (gameState == PLAY) {
-        drawStreet();
-        physics();
-    	} else if (gameState == HIGHSCORE) {
-        drawHighscore();
-	} else if (gameState == EXIT) {
-		
+		drawMenu(g.xres, g.yres, selectedOption);
+	} else if (gameState == PLAY) {
+		drawStreet();
+		physics();
+	} else if (gameState == HIGHSCORE) {
+		drawHighscore();
 	}
 	//
 	//
@@ -568,26 +569,26 @@ void render()
 	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_LIGHTING);
 	//glDisable(GL_DEPTH_TEST);
-    //glDisable(GL_CULL_FACE);
+	//glDisable(GL_CULL_FACE);
 	r.bot = g.yres - 20;
 	r.left = 10;
 	r.center = 0;
-    //------------------------------------------
-    //Putting Stopwatch
-    std::string text = "Time was: ";
-    text += std::to_string(timed);
+	//------------------------------------------
+	//Putting Stopwatch
+	std::string text = "Time was: ";
+	text += std::to_string(timed);
 
 	ggprint8b(&r, 16, 0x00887766, text.c_str()); 
-    //------------------------------------------
-    ggprint13(&r, 16, 0x00ffff00, "sec running time %i",
-        total_running_time(true));
-    ggprint13(&r, 16, 0x00ffff00, "render calls: %i",
-        total_render_function_calls(true));
-    ggprint13(&r, 16, 0x00ffff00, "physics calls: %i",
-        total_physics_function_calls(true));    
-    ggprint13(&r, 16, 0x00ffff00, "mouse distance: %f",
-        mouseMovement(NULL, true));    
-    //------------------------------------------
+	//------------------------------------------
+	ggprint13(&r, 16, 0x00ffff00, "sec running time %i",
+			total_running_time(true));
+	ggprint13(&r, 16, 0x00ffff00, "render calls: %i",
+			total_render_function_calls(true));
+	ggprint13(&r, 16, 0x00ffff00, "physics calls: %i",
+			total_physics_function_calls(true));    
+	ggprint13(&r, 16, 0x00ffff00, "mouse distance: %f",
+			mouseMovement(NULL, true));    
+	//------------------------------------------
 	ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	glPopAttrib();
 }
