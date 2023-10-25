@@ -20,18 +20,18 @@ void drawMenu(int xres, int yres, int selectedOption) {
 	glLoadIdentity();
 
 	// Define menu option positions and dimensions
-	float OptionWidth = xres * 0.001;
+	float OptionWidth = xres * 0.08;
 	float OptionHeight = yres * 0.2;
 	float spacing = yres * 0.05;
 
 	float centerY = yres * 0.5;
 	float centerX = yres * 0.5;
 
-	float startY = centerY + ((OptionHeight * 3) + (spacing * 2)) * 0.5;
+	float startY = centerY + ((OptionHeight * 3) + (spacing * 2)) * 0.4 ;
 
 	Rect r;
 	r.bot = startY;
-	r.left = centerX - (OptionWidth * 0.5);
+	r.left = centerX + (OptionWidth);
 	r.center = 1;
 
 	if (selectedOption == 0) {
