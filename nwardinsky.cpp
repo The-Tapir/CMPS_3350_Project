@@ -46,12 +46,13 @@ int total_running_time(const bool get)
 int total_render_function_calls(const bool get)
 {
     static int count = 0;
- 
-    count += 1;
 
     if (get) {
         return count;
     }
+
+    count += 1;
+
     return 0;
 } 
     
@@ -59,11 +60,12 @@ int total_physics_function_calls(const bool get)
 {
     static int count = 0;
 
-    count += 1;
-
     if (get) {
         return count;
     }
+
+    count += 1;
+
     return 0;
 } 
 
