@@ -9,8 +9,8 @@
 #include "dayeni.h"
 
 void drawMenu(int xres, int yres, int selectedOption) {
+	glClearColor(0.10f, 0.15f, 0.23f, 1.0f);
 	unsigned int blue = 0x0000FF;
-	//    unsigned int lightblue = 0x669FF;
 	unsigned int white = 0xFFFFFF;
 	// Set up the orthographic projection for 2D rendering
 	glMatrixMode(GL_PROJECTION);
@@ -36,7 +36,7 @@ void drawMenu(int xres, int yres, int selectedOption) {
 
 	if (selectedOption == 0) {
 		// If "Play" is selected, change the color to white
-		ggprint8b(&r, 16, blue, "Play");
+		ggprint16(&r, 16, 0x94FF33, "Play");
 	} else {
 		ggprint8b(&r, 16, white, "Play");
 	}
@@ -44,7 +44,7 @@ void drawMenu(int xres, int yres, int selectedOption) {
 	r.bot -= OptionHeight + spacing;
 	if (selectedOption == 1) {
 		// If "Highscore" is selected, change the color to white
-		ggprint8b(&r, 16, blue, "Highscore");
+		ggprint16(&r, 16, blue, "Highscore");
 	} else {
 		ggprint8b(&r, 16, white, "Highscore");
 	}
@@ -52,7 +52,7 @@ void drawMenu(int xres, int yres, int selectedOption) {
 	r.bot -= OptionHeight + spacing;
 	if (selectedOption == 2) {
 		// If "Exit" is selected, change the color to white
-		ggprint8b(&r, 16, blue, "Exit");
+		ggprint16(&r, 16, 0xFF3333, "Exit");
 	} else {
 		ggprint8b(&r, 16, white, "Exit");
 	}

@@ -221,8 +221,6 @@ void init()
 void init_opengl()
 {
 	//OpenGL initialization
-	glClearColor(0.0f, 0.4f, 0.5f, 0.0f);
-	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
 	glShadeModel(GL_SMOOTH);
@@ -462,6 +460,8 @@ void trans_vector(Matrix mat, const Vec in, Vec out)
 
 void drawStreet()
 {
+	glClearColor(0.0f, 0.4f, 0.5f, 0.0f);
+	glClearDepth(1.0);
 	glPushMatrix();
 	glColor3f(0.2f, 0.2f, 0.2f);
 	float w = 5.0;
