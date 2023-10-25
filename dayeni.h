@@ -10,6 +10,7 @@
 void drawMenu(int xres, int yres, int selectedoption);
 void drawHighscore();
 //void exitGame();
+float mouseMovement(XEvent *e, const bool get);
 
 
 #endif

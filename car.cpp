@@ -20,7 +20,6 @@
 #include "log.h"
 #include "fonts.h"
 #include "nwardinsky.h"
-#include "azurita.h"
 #include "mabadi.h"
 #include "dayeni.h"
 #include <string>
