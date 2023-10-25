@@ -5,6 +5,7 @@
 //
 //Framework for group attempting a 3D game.
 //
+
 #include <stdio.h>
 #include <stdlib.h>
 //#include <unistd.h>
@@ -19,6 +20,8 @@
 #include "log.h"
 #include "fonts.h"
 #include "nwardinsky.h"
+#include "azurita.h"
+#include "mabadi.h"
 #include "dayeni.h"
 #include <string>
 typedef float Flt;
@@ -274,6 +277,7 @@ void check_mouse(XEvent *e)
 		savex = e->xbutton.x;
 		savey = e->xbutton.y;
 	}
+        mouseMovement(e, false);    
 }
 int check_keys(XEvent *e)
 {
@@ -327,7 +331,8 @@ int check_keys(XEvent *e)
                 break;
             //-----------------------------------------------------
 			case XK_Escape:
-				return 1;
+				break;
+				//return 1;
 		}
 	}
 	return 0;
@@ -581,6 +586,8 @@ void render()
         total_render_function_calls(true));
     ggprint13(&r, 16, 0x00ffff00, "physics calls: %i",
         total_physics_function_calls(true));    
+    ggprint13(&r, 16, 0x00ffff00, "mouse distance: %f",
+        mouseMovement(NULL, true));    
     //------------------------------------------
 	ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	glPopAttrib();
