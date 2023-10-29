@@ -1,11 +1,6 @@
 //Name: David Ayeni
 //
 
-#include <cmath>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glx.h>
-#include "fonts.h"
 #include "dayeni.h"
 
 void drawMenu(int xres, int yres, int selectedOption) {

@@ -6,6 +6,12 @@
 #include <typeinfo>
 #include <string>
 #include <X11/Xlib.h>
+#include <cmath>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glx.h>
+#include "fonts.h"
+
 
 void drawMenu(int xres, int yres, int selectedoption);
 void drawHighscore();
