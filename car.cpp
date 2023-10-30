@@ -32,7 +32,7 @@ typedef Flt	Matrix[4][4];
 
 //Variables added by Nathan
 int timed = 0;
-
+bool show_stats = false;
 //Variables added by David
 int selectedOption = 0;// 0 represents "Play" as the default selection
 enum GameState { MENU, PLAY, HIGHSCORE, EXIT};
@@ -320,6 +320,7 @@ int check_keys(XEvent *e)
 			case XK_b:
 				break;
 			case XK_s:
+                show_stats = !show_stats;
 				break;
 				//Code added to try and make car move front and back    
 				//-----------------------------------------------------
@@ -571,11 +572,13 @@ void render()
 	r.center = 0;
 	//------------------------------------------
 	//Putting Stopwatch
+    ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	std::string text = "Time was: ";
 	text += std::to_string(timed);
 
 	ggprint8b(&r, 16, 0x00887766, text.c_str()); 
 	//------------------------------------------
+    if (show_stats) {
 	ggprint13(&r, 16, 0x00ffff00, "sec running time %i",
 			total_running_time(true));
 	ggprint13(&r, 16, 0x00ffff00, "render calls: %i",
@@ -583,9 +586,10 @@ void render()
 	ggprint13(&r, 16, 0x00ffff00, "physics calls: %i",
 			total_physics_function_calls(true));    
 	ggprint13(&r, 16, 0x00ffff00, "mouse distance: %f",
-			mouseMovement(NULL, true));    
+			mouseMovement(NULL, true)); 
+    }   
 	//------------------------------------------
-	ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
+	//ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	glPopAttrib();
 }
 
