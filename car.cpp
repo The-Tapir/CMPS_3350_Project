@@ -195,7 +195,7 @@ int main()
 	//----------------------------
 	total_running_time(false);
 	//----------------------------
-	while (!done) {
+	while ( (!done) && (gameState != EXIT) ) {
 		while (x11.getXPending()) {
 			XEvent e = x11.getXNextEvent();
 			x11.check_resize(&e);
@@ -204,9 +204,6 @@ int main()
 		}
 		physics();
 		render();
-		if (gameState == EXIT) {
-			return 0;	
-		}
 		x11.swapBuffers();
 	}
 	cleanup_fonts();
