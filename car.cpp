@@ -22,6 +22,7 @@
 #include "nwardinsky.h"
 #include "mabadi.h"
 #include "dayeni.h"
+#include "azurita.h"
 #include <string>
 typedef float Flt;
 typedef Flt Vec[3];
@@ -551,9 +552,12 @@ void render()
 	} else if (gameState == PLAY) {
 		drawStreet();
 		physics();
+        drawAzuritaCar();
 	} else if (gameState == HIGHSCORE) {
 		drawHighscore();
 	}
+
+    
 	//
 	//
 	//
