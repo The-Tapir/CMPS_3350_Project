@@ -331,8 +331,7 @@ int check_keys(XEvent *e)
 				break;
 				//-----------------------------------------------------
 			case XK_Escape:
-				break;
-				//return 1;
+				return 1;
 		}
 	}
 	return 0;
