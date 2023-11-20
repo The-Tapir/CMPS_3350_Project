@@ -23,6 +23,8 @@ struct Vertex {
 struct OBJMesh {
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices; // Add indices for faces
+    std::vector<Vertex> obstacles;  // New vector to store obstacle vertices
+
 };
 
 OBJMesh loadOBJ(const std::string& racetrack);
@@ -30,6 +32,7 @@ OBJMesh loadOBJ(const std::string& racetrack);
 int time_since_mouse_moved(const bool get);
 
 void drawTrack(); 
+void generateRandomObstacles();
 //void faceIndex();
 
 
