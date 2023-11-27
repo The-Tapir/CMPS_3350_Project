@@ -31,15 +31,13 @@ typedef Flt	Matrix[4][4];
 
 
 
-OBJMesh racetrack = loadOBJ("racetrack.obj");
-
+/*OBJMesh racetrack = loadOBJ("racetrack.obj");
 void drawTrack() {
     glBegin(GL_TRIANGLES);
     for (std::vector<unsigned int>::size_type i = 0; i < racetrack.indices.size(); i += 3) {
         unsigned int index1 = racetrack.indices[i];
         unsigned int index2 = racetrack.indices[i + 1];
         unsigned int index3 = racetrack.indices[i + 2];
-
         // Assuming racetrack.vertices is a vector of Vertex
         glVertex3fv(racetrack.vertices[index1].position);
         glVertex3fv(racetrack.vertices[index2].position);
@@ -52,7 +50,6 @@ void drawTrack() {
     float w = 0.1;
     float d = 100.0;
     float h = 0.01;
-
     // Draw double yellow line
     glPushMatrix();
     glTranslatef(-0.15f, 0.0f, 0.0f);
@@ -65,7 +62,6 @@ void drawTrack() {
     glVertex3f(w, h, d);
     glEnd();
     glPopMatrix();
-
     // Draw guard rails
     glColor3f(1.0f, 1.0f, 1.0f);
     for (int i = 0; i < 40; i++) {
@@ -80,7 +76,7 @@ void drawTrack() {
     }
     glPopMatrix();
 }
-    
+  */  
     
  
 
