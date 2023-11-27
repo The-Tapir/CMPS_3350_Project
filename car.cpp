@@ -21,6 +21,7 @@
 #include "fonts.h"
 #include "nwardinsky.h"
 #include "mabadi.h"
+
 #include "dayeni.h"
 #include "azurita.h"
 #include <string>
@@ -28,7 +29,56 @@ typedef float Flt;
 typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
 
-//-----------------------------
+
+
+/*OBJMesh racetrack = loadOBJ("racetrack.obj");
+void drawTrack() {
+    glBegin(GL_TRIANGLES);
+    for (std::vector<unsigned int>::size_type i = 0; i < racetrack.indices.size(); i += 3) {
+        unsigned int index1 = racetrack.indices[i];
+        unsigned int index2 = racetrack.indices[i + 1];
+        unsigned int index3 = racetrack.indices[i + 2];
+        // Assuming racetrack.vertices is a vector of Vertex
+        glVertex3fv(racetrack.vertices[index1].position);
+        glVertex3fv(racetrack.vertices[index2].position);
+        glVertex3fv(racetrack.vertices[index3].position);
+    }
+    glEnd();
+ // Draw additional components from drawStreet
+    glPushMatrix();
+    glColor3f(0.8f, 0.8f, 0.2f); // double yellow line color
+    float w = 0.1;
+    float d = 100.0;
+    float h = 0.01;
+    // Draw double yellow line
+    glPushMatrix();
+    glTranslatef(-0.15f, 0.0f, 0.0f);
+    glBegin(GL_QUADS);
+    // top
+    glNormal3f(0.0f, 1.0f, 0.0f);
+    glVertex3f(w, h, -d);
+    glVertex3f(-w, h, -d);
+    glVertex3f(-w, h, d);
+    glVertex3f(w, h, d);
+    glEnd();
+    glPopMatrix();
+    // Draw guard rails
+    glColor3f(1.0f, 1.0f, 1.0f);
+    for (int i = 0; i < 40; i++) {
+        glPushMatrix();
+        glTranslatef(6.0f, -0.5f, (float)-i * 2.5);
+        //box(0.2, 5.0, 0.2);
+        glPopMatrix();
+        glPushMatrix();
+        glTranslatef(-6.0f, -0.5f, (float)-i * 2.5);
+        //box(0.2, 5.0, 0.2);
+        glPopMatrix();
+    }
+    glPopMatrix();
+}
+  */  
+    
+ 
 
 
 //Variables added by Nathan
@@ -272,7 +322,9 @@ void check_mouse(XEvent *e)
 	}
 	if (savex != e->xbutton.x || savey != e->xbutton.y) {
 		//Mouse moved
-		savex = e->xbutton.x;
+	    time_since_mouse_moved(false);
+
+        savex = e->xbutton.x;
 		savey = e->xbutton.y;
 	}
 	mouseMovement(e, false);    
@@ -302,6 +354,7 @@ int check_keys(XEvent *e)
 				if(selectedOption == 0) {
 					gameState = PLAY;
 					drawStreet();
+                    drawTrack();
 				} else if(selectedOption == 1) {
 					gameState = HIGHSCORE;
 				} else if(selectedOption == 2) {
@@ -462,29 +515,31 @@ void drawStreet()
 	glClearDepth(1.0);
 	glPushMatrix();
 	glColor3f(0.2f, 0.2f, 0.2f);
-	float w = 5.0;
-	float d = 100.0;
-	float h = 0.0;
+	//float w = 5.0;
+	//float d = 100.0;
+	//float h = 0.0;
 	glTranslatef(0.0f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
 	//top
-	glNormal3f( 0.0f, 1.0f, 0.0f);
+	/*
+    glNormal3f( 0.0f, 1.0f, 0.0f);
 	glVertex3f( w, h,-d);
 	glVertex3f(-w, h,-d);
 	glVertex3f(-w, h, d);
 	glVertex3f( w, h, d);
 	glEnd();
 	glPopMatrix();
-	//double yellow line
+	*/
+    //double yellow line
 	glColor3f(0.8f, 0.8f, 0.2f);
-	w = 0.1;
-	d = 100.0;
-	h = 0.01;
+	//w = 0.1;
+	//d = 100.0;
+	//h = 0.01;
 	glPushMatrix();
 	glTranslatef(-0.15f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
 	//top
-	glNormal3f( 0.0f, 1.0f, 0.0f);
+	/*glNormal3f( 0.0f, 1.0f, 0.0f);
 	glVertex3f( w, h,-d);
 	glVertex3f(-w, h,-d);
 	glVertex3f(-w, h, d);
@@ -502,7 +557,8 @@ void drawStreet()
 	glVertex3f( w, h, d);
 	glEnd();
 	glPopMatrix();
-	//guard rails
+	*/
+    //guard rails
 	glColor3f(1.0f, 1.0f, 1.0f);
 	for (int i=0; i<40; i++) {
 		glPushMatrix();
@@ -550,8 +606,9 @@ void render()
 	if (gameState == MENU) {
 		drawMenu(g.xres, g.yres, selectedOption);
 	} else if (gameState == PLAY) {
-		drawStreet();
-		physics();
+		//drawStreet();
+		drawTrack();
+        physics();
         drawAzuritaCar();
 	} else if (gameState == HIGHSCORE) {
 		drawHighscore();
@@ -590,12 +647,13 @@ void render()
 	ggprint13(&r, 16, 0x00ffff00, "physics calls: %i",
 			total_physics_function_calls(true));    
 	ggprint13(&r, 16, 0x00ffff00, "mouse distance: %f",
-			mouseMovement(NULL, true)); 
+              //time_since_mouse_moved(false);
+
+            mouseMovement(NULL, true)); 
     }   
 	//------------------------------------------
 	//ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	glPopAttrib();
 }
-
 
 
