@@ -343,8 +343,8 @@ int check_keys(XEvent *e)
 		int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
 
         //---------------------------------------------
-        Flt cameraAngle;
-        cameraAngle = PI * (PI * 0.5);
+        //Flt cameraAngle;
+        //cameraAngle = PI * (PI * 0.5);
         //---------------------------------------------
 		switch(key) {
 			case XK_Up:
