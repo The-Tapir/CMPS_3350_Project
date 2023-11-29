@@ -135,6 +135,9 @@ class Global {
 		int xres, yres;
 		Flt aspectRatio;
 		Vec cameraPosition;
+        //added
+        Flt cameraAngle;
+        //------------
 		GLfloat lightPosition[4];
 		Global() {
 			//constructor
@@ -145,6 +148,8 @@ class Global {
 			//light is up high, right a little, toward a little
 			MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
 			lightPosition[3] = 1.0f;
+
+            cameraAngle = PI * (PI * 0.5);
 		}
 } g;
 
@@ -332,9 +337,15 @@ void check_mouse(XEvent *e)
 int check_keys(XEvent *e)
 {
 	//Was there input from the keyboard?
+    Vec dir;
 	if (e->type == KeyPress) {
 		//look up what library XLookupKeysym(&e->xkey, 0)
 		int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
+
+        //---------------------------------------------
+        Flt cameraAngle;
+        cameraAngle = PI * (PI * 0.5);
+        //---------------------------------------------
 		switch(key) {
 			case XK_Up:
 				if(selectedOption > 0) {
@@ -373,14 +384,40 @@ int check_keys(XEvent *e)
 				break;
 			case XK_b:
 				break;
-			case XK_s:
+			case XK_t:
                 show_stats = !show_stats;
 				break;
 				//Code added to try and make car move front and back    
 				//-----------------------------------------------------
-			case XK_Tab:
-				timed = timer();
-				break;
+            case XK_a:
+              //Steer car to the left
+              g.cameraAngle -= 0.05;
+              break;
+
+          case XK_d:
+              //Steer car to the right
+              g.cameraAngle += 0.05;
+              break;
+
+          case XK_w:
+              //move car forward
+              dir[0] = cos(g.cameraAngle);
+              dir[2] = sin(g.cameraAngle);
+              dir[1] = 0.0;
+              VecAdd(g.cameraPosition, dir, g.cameraPosition);
+              break;
+
+          case XK_s:
+              //move car backwards
+              dir[0] = cos(g.cameraAngle);
+              dir[2] = sin(g.cameraAngle);
+              dir[1] = 0.0;
+              VecSub(g.cameraPosition, dir, g.cameraPosition);
+              break;
+
+          case XK_Tab:
+              timed = timer();
+              break;
 				//-----------------------------------------------------
 			case XK_Escape:
 				return 1;
@@ -597,10 +634,26 @@ void render()
 	glLoadIdentity();
 	//for documentation...
 	Vec up = {0,1,0};
+    //old
+    /*
 	gluLookAt(
 			g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
 			g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2]-1.0,
 			up[0], up[1], up[2]);
+            */
+    //new
+    Vec spot;
+    spot[0] = cos(g.cameraAngle);
+    spot[2] = sin(g.cameraAngle);
+    spot[1] = 0.0;
+
+    VecAdd(spot, g.cameraPosition, spot);
+
+    gluLookAt(
+            g.cameraPosition[0], g.cameraPosition[1], g.cameraPosition[2],
+            spot[0], spot[1], spot[2],
+            up[0], up[1], up[2]);
+
 	glLightfv(GL_LIGHT0, GL_POSITION, g.lightPosition);
 	//
 	if (gameState == MENU) {
