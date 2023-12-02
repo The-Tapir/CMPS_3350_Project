@@ -123,6 +123,7 @@ GameState gameState = MENU;
 #define MY_INFINITY 1000.0
 
 void init();
+ //glEnable(GL_DEPTH_TEST);
 void init_opengl();
 void check_mouse(XEvent *e);
 int check_keys(XEvent *e);
@@ -366,6 +367,7 @@ int check_keys(XEvent *e)
 					gameState = PLAY;
 					drawStreet();
                     drawTrack();
+                    //drawterrain();
 				} else if(selectedOption == 1) {
 					gameState = HIGHSCORE;
 				} else if(selectedOption == 2) {
@@ -660,9 +662,12 @@ void render()
 		drawMenu(g.xres, g.yres, selectedOption);
 	} else if (gameState == PLAY) {
 		//drawStreet();
-		drawTrack();
+        //drawStoplight();
+        drawTrack();
         physics();
+      
         drawAzuritaCar();
+         //drawterrain();
 	} else if (gameState == HIGHSCORE) {
 		drawHighscore();
 	}

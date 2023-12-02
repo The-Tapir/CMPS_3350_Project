@@ -11,6 +11,8 @@
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
+
+
 struct Vertex {
     float position[3];
     float normal[3];
@@ -24,8 +26,7 @@ struct OBJMesh {
 OBJMesh loadOBJ(const std::string& racetrack);
 int time_since_mouse_moved(const bool get);
 void drawTrack(); 
-void generateRandomObstacles();
-//void faceIndex();
-
-
+void drawterrain();
+void drawGuardRails();
+void drawStoplight();
 #endif
