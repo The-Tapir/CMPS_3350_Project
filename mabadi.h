@@ -11,7 +11,7 @@
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
-
+//
 
 struct Vertex {
     float position[3];
