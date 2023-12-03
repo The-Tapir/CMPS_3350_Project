@@ -11,6 +11,7 @@
 #include <iostream>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <cmath>
 //
 
 struct Vertex {
@@ -29,4 +30,8 @@ void drawTrack();
 void drawterrain();
 void drawGuardRails();
 void drawStoplight();
+void renderTree3D();
+void drawLeaves();
+void drawTrunk();
+void renderScene();
 #endif

@@ -108,8 +108,7 @@ void drawTrack() {
         unsigned int index1 = racetrack.indices[i];
         unsigned int index2 = racetrack.indices[i + 1];
         unsigned int index3 = racetrack.indices[i + 2];
-  
-     glColor3f(0.3, 0.3, 0.3);  
+  glColor3f(0.3, 0.3, 0.3);  
     //glVertex2f(-1.0, -0.5);
     //glVertex2f(1.0, -0.5);
     //glVertex2f(1.0, -1.0);
@@ -123,4 +122,134 @@ void drawTrack() {
     //glPopMatrix();    
 //    
 }    
+void drawterrain() {
+    glBegin(GL_TRIANGLES);
+    for (std::vector<unsigned int>::size_type i = 0; i < racetrack.indices.size(); i += 3) {
+        unsigned int index1 = racetrack.indices[i];
+            unsigned int index2 = racetrack.indices[i + 1];
+        unsigned int index3 = racetrack.indices[i + 2];
+        // Assuming racetrack.vertices is a vector of Vertex
+        glColor3f(0.0, 0.8, 0.0);  // Black color for the race track
+        glVertex3fv(racetrack.vertices[index1].position);
+        glVertex3fv(racetrack.vertices[index2].position);
+        glVertex3fv(racetrack.vertices[index3].position);
+    }
+    glEnd();
+    // Draw grass in the middle of the track
+    glBegin(GL_TRIANGLES);
+    glColor3f(0.0, 1.0, 0.0);  // Green color for the grass
+  // Define vertices for a rectangular grass area in the middle of the track
+    glVertex3f(-1.0, -0.5, 0.0);
+    glVertex3f(1.0, -0.5, 0.0);
+    glVertex3f(1.0, -1.0, 0.0);
+   //glVertex3f(-1.0, -1.0, 0.0);
+    glVertex3f(-1.0, -0.5, 0.0);
+    glVertex3f(1.0, -0.5, 0.0);
+    glVertex3f(1.0, -1.0, 0.0);
+    glVertex3f(-1.0, -0.5, 0.0);
+    glVertex3f(1.0, -0.5, 0.0);
+    glVertex3f(1.0, -1.0, 0.0);
+    glVertex3f(-1.0, -0.5, 0.0);
+    glVertex3f(1.0, -0.5, 0.0);
+    glVertex3f(1.0, -1.0, 0.0);
+    glEnd();
+}
+void renderTree3D() {
+    // Trunk parameters
+    float trunkRadius = 0.1f;
+    float trunkHeight = 0.5f;
+    int trunkSlices = 20;
+    // Leaves parameters
+    float leavesRadius = 0.3f;
+    float leavesHeight = 0.5f;
+    int leavesSlices = 20;
+    glPushMatrix();  // Push the current matrix onto the matrix stack
+    glScalef(5.0f, 5.0f, 5.0f);  // Scale the entire tree
+    // Draw trunk (cylinder)
+    glColor3f(0.5f, 0.35f, 0.05f); // Brown color
+    glBegin(GL_QUAD_STRIP);
+    for (int i = 0; i <= trunkSlices; i++) {
+        float angle = 2.0f * M_PI * i / trunkSlices;
+        float x = trunkRadius * cos(angle);
+        float z = trunkRadius * sin(angle);
+        glVertex3f(x, 0.0f, z);
+        glVertex3f(x, trunkHeight, z);
+    }
+    glEnd();
+    // Draw leaves (cone)
+    glColor3f(0.0f, 0.8f, 0.0f); // Green color
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(0.0f, trunkHeight + leavesHeight, 0.0f); // Top of the cone (apex)
+    for (int i = 0; i <= leavesSlices; i++) {
+        float angle = 2.0f * M_PI * i / leavesSlices;
+        float x = leavesRadius * cos(angle);
+        float z = leavesRadius * sin(angle);
+    glVertex3f(x, trunkHeight, z);
+    }
+    
+    glEnd();
+    glPopMatrix();  // Restore the previous matrix from the matrix stack
+}
+
+
+
+
+
+/*
+ void renderScene() {
+    // Other rendering code...
+    std::cout << "Rendering scene" << std::endl;
+    // Render the first tree
+       // Render the first tree
+    glPushMatrix();
+    glTranslatef(-4.0f, 0.0f, -2.0f); // Adjust the x-position for the first tree
+    renderTree3D();
+    glPopMatrix();
+
+    // Render the second tree
+    glPushMatrix();
+    glTranslatef(0.0f, 0.0f, -2.0f); // Adjust the x-position for the second tree
+    renderTree3D();
+    glPopMatrix();
+
+    // Render the third tree
+    glPushMatrix();
+    glTranslatef(4.0f, 0.0f, -2.0f); // Adjust the x-position for the third tree
+    renderTree3D();
+    glPopMatrix();
+
+    // Other rendering code...
+}
+*/
+
+
+
+// Other includes and setup code...
+
+void renderScene() {
+    // Other rendering code...
+std::cout << "Rendering scene" << std::endl;
+    // Render the first tree
+    
+    glPushMatrix();
+    glTranslatef(-4.0f, 1.0f, -2.0f); // Adjust the position of the first tree
+    renderTree3D();
+    glPopMatrix();
+
+    // Render the second tree
+    glPushMatrix();
+    glTranslatef(0.0f, 0.0f, -2.0f); // Adjust the position of the second tree
+    renderTree3D();
+    glPopMatrix();
+
+    // Render the third tree
+    
+    glPushMatrix();
+    glTranslatef(4.0f, 2.0f, -2.0f); // Adjust the position of the third tree
+    
+    renderTree3D();
+    glPopMatrix();
+
+    // Other rendering code...
+}
 

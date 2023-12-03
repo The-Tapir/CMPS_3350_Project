@@ -8,6 +8,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <chrono>
+#include <GL/gl.h>
+#include <GL/glx.h>
+#include <GL/glu.h>
+#include <cmath>
+
+
 //#include <unistd.h>
 //#include <time.h>
 #include <math.h>
@@ -30,9 +37,9 @@ typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
 
 
+//OBJMesh terrain = loadOBJ("terrain.obj");
 
-/*OBJMesh racetrack = loadOBJ("racetrack.obj");
-void drawTrack() {
+/*void drawTrack() {
     glBegin(GL_TRIANGLES);
     for (std::vector<unsigned int>::size_type i = 0; i < racetrack.indices.size(); i += 3) {
         unsigned int index1 = racetrack.indices[i];
@@ -123,7 +130,6 @@ GameState gameState = MENU;
 #define MY_INFINITY 1000.0
 
 void init();
- //glEnable(GL_DEPTH_TEST);
 void init_opengl();
 void check_mouse(XEvent *e);
 int check_keys(XEvent *e);
@@ -145,7 +151,7 @@ class Global {
 			xres=640;
 			yres=480;
 			aspectRatio = (GLfloat)xres / (GLfloat)yres;
-			MakeVector(0.0, 1.0, 8.0, cameraPosition);
+			MakeVector(10.0, 2.0, 8.0, cameraPosition);
 			//light is up high, right a little, toward a little
 			MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
 			lightPosition[3] = 1.0f;
@@ -367,7 +373,6 @@ int check_keys(XEvent *e)
 					gameState = PLAY;
 					drawStreet();
                     drawTrack();
-                    //drawterrain();
 				} else if(selectedOption == 1) {
 					gameState = HIGHSCORE;
 				} else if(selectedOption == 2) {
@@ -662,12 +667,14 @@ void render()
 		drawMenu(g.xres, g.yres, selectedOption);
 	} else if (gameState == PLAY) {
 		//drawStreet();
-        //drawStoplight();
         drawTrack();
+        drawterrain();
+        renderTree3D();
+        //drawLeaves();
+        //drawTrunk();
         physics();
-      
         drawAzuritaCar();
-         //drawterrain();
+        renderScene();
 	} else if (gameState == HIGHSCORE) {
 		drawHighscore();
 	}
