@@ -4,8 +4,8 @@
 #include "dayeni.h"
 
 void drawMenu(int xres, int yres, int selectedOption) {
-	glClearColor(0.10f, 0.15f, 0.23f, 1.0f);
-	unsigned int blue = 0x0000FF;
+	glClearColor(0.00f, 0.0f, 0.0f, 1.0f);
+	// unsigned int blue = 0x0000FF;
 	unsigned int white = 0xFFFFFF;
 	// Set up the orthographic projection for 2D rendering
 	glMatrixMode(GL_PROJECTION);
@@ -17,39 +17,44 @@ void drawMenu(int xres, int yres, int selectedOption) {
 	// Define menu option positions and dimensions
 	float OptionWidth = xres * 0.08;
 	float OptionHeight = yres * 0.2;
-	float spacing = yres * 0.05;
+	float spacing = yres * 0.001;
 
 	float centerY = yres * 0.5;
 	float centerX = yres * 0.5;
 
-	float startY = centerY + ((OptionHeight * 3) + (spacing * 2)) * 0.4 ;
+	float startY = centerY + ((OptionHeight * 4.5) + (spacing*3)) * 0.4 ;
 
 	Rect r;
 	r.bot = startY;
 	r.left = centerX + (OptionWidth);
 	r.center = 1;
 
+	ggprint12(&r, 16, 0x00FBFF, "Jerry the Car Race Driver");
+
+	r.bot -= (OptionHeight*0.8) + spacing;
+	r.height = 1;
+
 	if (selectedOption == 0) {
 		// If "Play" is selected, change the color to white
-		ggprint16(&r, 16, 0x94FF33, "Play");
+		ggprint13(&r, 16, 0x00FF04, "Play");
 	} else {
-		ggprint8b(&r, 16, white, "Play");
+		ggprint13(&r, 16, white, "Play");
 	}
 
 	r.bot -= OptionHeight + spacing;
 	if (selectedOption == 1) {
 		// If "Highscore" is selected, change the color to white
-		ggprint16(&r, 16, blue, "Highscore");
+		ggprint13(&r, 16, 0xFFFF00, "Highscore");
 	} else {
-		ggprint8b(&r, 16, white, "Highscore");
+		ggprint13(&r, 16, white, "Highscore");
 	}
 
 	r.bot -= OptionHeight + spacing;
 	if (selectedOption == 2) {
 		// If "Exit" is selected, change the color to white
-		ggprint16(&r, 16, 0xFF3333, "Exit");
+		ggprint13(&r, 16, 0xFF3333, "Exit");
 	} else {
-		ggprint8b(&r, 16, white, "Exit");
+		ggprint13(&r, 16, white, "Exit");
 	}
 
 }
