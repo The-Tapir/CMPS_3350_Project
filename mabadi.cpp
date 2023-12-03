@@ -188,43 +188,8 @@ void renderTree3D() {
     }
     
     glEnd();
-    glPopMatrix();  // Restore the previous matrix from the matrix stack
+    glPopMatrix();  
 }
-
-
-
-
-
-/*
- void renderScene() {
-    // Other rendering code...
-    std::cout << "Rendering scene" << std::endl;
-    // Render the first tree
-       // Render the first tree
-    glPushMatrix();
-    glTranslatef(-4.0f, 0.0f, -2.0f); // Adjust the x-position for the first tree
-    renderTree3D();
-    glPopMatrix();
-
-    // Render the second tree
-    glPushMatrix();
-    glTranslatef(0.0f, 0.0f, -2.0f); // Adjust the x-position for the second tree
-    renderTree3D();
-    glPopMatrix();
-
-    // Render the third tree
-    glPushMatrix();
-    glTranslatef(4.0f, 0.0f, -2.0f); // Adjust the x-position for the third tree
-    renderTree3D();
-    glPopMatrix();
-
-    // Other rendering code...
-}
-*/
-
-
-
-// Other includes and setup code...
 
 void renderScene() {
     // Other rendering code...
