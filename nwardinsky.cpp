@@ -67,5 +67,17 @@ int total_physics_function_calls(const bool get)
     count += 1;
 
     return 0;
-} 
+}
+
+int key_presses(const bool get) {
+	static int count = 0;
+
+	if (get) {
+		return count;
+	}
+
+	count += 1;
+	
+	return 0;
+}
 

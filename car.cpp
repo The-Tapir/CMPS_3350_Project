@@ -350,6 +350,8 @@ int check_keys(XEvent *e)
 	//Was there input from the keyboard?
     Vec dir;
 	if (e->type == KeyPress) {
+
+		key_presses(false);
 		//look up what library XLookupKeysym(&e->xkey, 0)
 		int key = (XLookupKeysym(&e->xkey, 0) & 0x0000ffff);
 
@@ -714,11 +716,16 @@ void render()
 	ggprint13(&r, 16, 0x00ffff00, "render calls: %i",
 			total_render_function_calls(true));
 	ggprint13(&r, 16, 0x00ffff00, "physics calls: %i",
-			total_physics_function_calls(true));    
+			total_physics_function_calls(true));
+
+	ggprint13(&r, 16, 0x00ffff00, "key presses: %i",
+		key_presses(true));
+
 	ggprint13(&r, 16, 0x00ffff00, "mouse distance: %f",
               //time_since_mouse_moved(false);
+	      mouseMovement(NULL, true));
 
-            mouseMovement(NULL, true)); 
+
     }   
 	//------------------------------------------
 	//ggprint8b(&r, 16, 0x00887766, "Jerry Berry");

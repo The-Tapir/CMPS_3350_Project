@@ -12,4 +12,5 @@ int timer();
 int total_running_time(bool);
 int total_render_function_calls(bool);
 int total_physics_function_calls(bool);
+int key_presses(bool);
 #endif
