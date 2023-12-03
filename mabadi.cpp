@@ -138,7 +138,7 @@ void drawterrain() {
     // Draw grass in the middle of the track
     glBegin(GL_TRIANGLES);
     glColor3f(0.0, 1.0, 0.0);  // Green color for the grass
-  // Define vertices for a rectangular grass area in the middle of the track
+  
     glVertex3f(-1.0, -0.5, 0.0);
     glVertex3f(1.0, -0.5, 0.0);
     glVertex3f(1.0, -1.0, 0.0);
@@ -163,7 +163,7 @@ void renderTree3D() {
     float leavesRadius = 0.3f;
     float leavesHeight = 0.5f;
     int leavesSlices = 20;
-    glPushMatrix();  // Push the current matrix onto the matrix stack
+    glPushMatrix(); 
     glScalef(5.0f, 5.0f, 5.0f);  // Scale the entire tree
     // Draw trunk (cylinder)
     glColor3f(0.5f, 0.35f, 0.05f); // Brown color
@@ -195,26 +195,23 @@ void renderScene() {
     // Other rendering code...
 std::cout << "Rendering scene" << std::endl;
     // Render the first tree
-    
+
     glPushMatrix();
-    glTranslatef(-4.0f, 1.0f, -2.0f); // Adjust the position of the first tree
+    glTranslatef(-4.5f, -1.58f, -2.0f); // Adjust the position of the first tree
     renderTree3D();
     glPopMatrix();
 
-    // Render the second tree
+    // Render the second tree near car
     glPushMatrix();
-    glTranslatef(0.0f, 0.0f, -2.0f); // Adjust the position of the second tree
+    glTranslatef(-3.0f, 0.30f, -2.0f); // Adjust the position of the second tree
     renderTree3D();
     glPopMatrix();
 
-    // Render the third tree
-    
+  // Render the third tree
+
     glPushMatrix();
-    glTranslatef(4.0f, 2.0f, -2.0f); // Adjust the position of the third tree
-    
+    glTranslatef(4.0f, -0.2f, -2.0f); // Adjust the position of the third tree
     renderTree3D();
     glPopMatrix();
-
-    // Other rendering code...
 }
 
