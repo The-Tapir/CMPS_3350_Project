@@ -34,7 +34,6 @@ OBJMesh loadOBJ(const std::string& racetrack) {
                 std::istringstream vertexStream(vertexStr);
                 std::getline(vertexStream, token, '/');
                 vIndex = std::stoi(token);
-                std::cout << "Vertex Index: " << vIndex << std::endl;
                 if (vIndex <= vertices.size()) {
                     // Valid vertex index
                     mesh.vertices.push_back(vertices[vIndex - 1]);
@@ -193,9 +192,9 @@ void renderTree3D() {
 
 void renderScene() {
     // Other rendering code...
-std::cout << "Rendering scene" << std::endl;
+//std::cout << "Rendering scene" << std::endl;
     // Render the first tree
-
+glPopMatrix();
     glPushMatrix();
     glTranslatef(-4.5f, -1.58f, -2.0f); // Adjust the position of the first tree
     renderTree3D();
@@ -203,7 +202,7 @@ std::cout << "Rendering scene" << std::endl;
 
     // Render the second tree near car
     glPushMatrix();
-    glTranslatef(-3.0f, 0.30f, -2.0f); // Adjust the position of the second tree
+    glTranslatef(-5.0f, 0.30f, -20.0f); // Adjust the position of the second tree
     renderTree3D();
     glPopMatrix();
 
@@ -213,5 +212,21 @@ std::cout << "Rendering scene" << std::endl;
     glTranslatef(4.0f, -0.2f, -2.0f); // Adjust the position of the third tree
     renderTree3D();
     glPopMatrix();
+
+// 4th tree
+
+    glPushMatrix();
+    glTranslatef(-8.0f, -0.2f, -2.0f); // Adjust the position of the third tree
+    renderTree3D();
+    glPopMatrix();
+
+
+//5th tree
+
+    glPushMatrix();
+    glTranslatef(9.0f, -0.2f, -14.0f); // Adjust the position of the third tree
+    renderTree3D();
+    glPopMatrix();
+   
 }
 
