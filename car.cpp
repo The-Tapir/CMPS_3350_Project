@@ -1,11 +1,9 @@
-//
 //program: car.cpp
 //author:  Gordon Griesel
 //Modified by: Moss, David, Alex, Nathan
 //date:    summer 2017
 //
 //Framework for group attempting a 3D game.
-//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +12,6 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 #include <cmath>
-
 
 //#include <unistd.h>
 //#include <time.h>
@@ -37,58 +34,6 @@ typedef float Flt;
 typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
 
-
-//OBJMesh terrain = loadOBJ("terrain.obj");
-
-/*void drawTrack() {
-    glBegin(GL_TRIANGLES);
-    for (std::vector<unsigned int>::size_type i = 0; i < racetrack.indices.size(); i += 3) {
-        unsigned int index1 = racetrack.indices[i];
-        unsigned int index2 = racetrack.indices[i + 1];
-        unsigned int index3 = racetrack.indices[i + 2];
-        // Assuming racetrack.vertices is a vector of Vertex
-        glVertex3fv(racetrack.vertices[index1].position);
-        glVertex3fv(racetrack.vertices[index2].position);
-        glVertex3fv(racetrack.vertices[index3].position);
-    }
-    glEnd();
- // Draw additional components from drawStreet
-    glPushMatrix();
-    glColor3f(0.8f, 0.8f, 0.2f); // double yellow line color
-    float w = 0.1;
-    float d = 100.0;
-    float h = 0.01;
-    // Draw double yellow line
-    glPushMatrix();
-    glTranslatef(-0.15f, 0.0f, 0.0f);
-    glBegin(GL_QUADS);
-    // top
-    glNormal3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(w, h, -d);
-    glVertex3f(-w, h, -d);
-    glVertex3f(-w, h, d);
-    glVertex3f(w, h, d);
-    glEnd();
-    glPopMatrix();
-    // Draw guard rails
-    glColor3f(1.0f, 1.0f, 1.0f);
-    for (int i = 0; i < 40; i++) {
-        glPushMatrix();
-        glTranslatef(6.0f, -0.5f, (float)-i * 2.5);
-        //box(0.2, 5.0, 0.2);
-        glPopMatrix();
-        glPushMatrix();
-        glTranslatef(-6.0f, -0.5f, (float)-i * 2.5);
-        //box(0.2, 5.0, 0.2);
-        glPopMatrix();
-    }
-    glPopMatrix();
-}
-  */  
-    
- 
-
-
 //Variables added by Nathan
 int timed = 0;
 bool show_stats = false;
@@ -96,6 +41,9 @@ bool show_stats = false;
 int selectedOption = 0;// 0 represents "Play" as the default selection
 enum GameState { MENU, PLAY, HIGHSCORE, EXIT};
 GameState gameState = MENU;
+float Pos1 = 13.99999f;
+float Pos2 = 1.2547f;
+float Pos3 = 9.65f;
 
 //-----------------------------
 //some defined macros
@@ -365,6 +313,7 @@ int check_keys(XEvent *e)
 					selectedOption--;
 				}
 				g.cameraPosition[2] -= 0.1;
+				Pos3 -= 0.1f;
 				break;
 				break;
 			case XK_Down:
@@ -372,6 +321,7 @@ int check_keys(XEvent *e)
 					selectedOption++;
 				}
 				g.cameraPosition[2] += 0.1;
+				Pos3 += 0.1f;
 				break;
 				break;
 			case XK_Return:
@@ -679,7 +629,7 @@ void render()
         //drawLeaves();
         //drawTrunk();
         physics();
-        drawAzuritaCar();
+        drawAzuritaCar(Pos1, Pos2, Pos3);
         renderScene();
 	} else if (gameState == HIGHSCORE) {
 		drawHighscore();

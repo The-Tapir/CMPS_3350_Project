@@ -14,7 +14,7 @@
 #include <cmath>
 
 
-void drawAzuritaCar();
+void drawAzuritaCar(float Pos1, float Pos2, float Pos3);
 int total_time_since_key_press(const bool get);
 
 

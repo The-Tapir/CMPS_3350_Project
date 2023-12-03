@@ -12,7 +12,6 @@
 
 // Current main goal implement the car on track ----> Note: after this try to implement the mmovement of the car. 2nd goal would be to be able to make the car move forward, backward, left and right
 
-
 #include "azurita.h"
 
 using namespace std;
@@ -33,10 +32,10 @@ static Vec carSize;
 bool wheelsInitialized = false;
 
 // Initialization of the car's attributes
-void initializeAzuritaCarAttributes() {
+void initializeAzuritaCarAttributes(float Pos1, float Pos2, float Pos3) {
     if (!wheelsInitialized) {
         // Set the initial position of the car
-        MakeVector(13.99999f, 0.2547f+1.0f, 9.6500f, carPosition);
+        MakeVector(Pos1, Pos2, Pos3, carPosition);
 
         // Set the size of the car (as a simple rectangle)
         MakeVector(1.0f, 0.5f, 2.5f, carSize);
@@ -48,13 +47,13 @@ void initializeAzuritaCarAttributes() {
     }
 }
 
-void drawAzuritaCar() {
-    initializeAzuritaCarAttributes();
+void drawAzuritaCar(float Pos1, float Pos2, float Pos3) {
+    initializeAzuritaCarAttributes(Pos1, Pos2, Pos3);
 
     glPushMatrix();
 
     glColor3f(1.0f, 0.0f, 0.0f); // Red color
-    glTranslatef(carPosition[0], carPosition[1], carPosition[2]);
+    glTranslatef(Pos1, Pos2, Pos3);
 
     // Drawing the car as a rectangular cube
     azuritaBox(carSize[0], carSize[1], carSize[2]);
