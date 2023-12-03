@@ -66,28 +66,28 @@ void drawAzuritaCar(float Pos1, float Pos2, float Pos3) {
 
     // Draw front left wheel
     glPushMatrix();
-    glTranslatef(-carSize[0] * 0.5f, -carSize[1] * 0.5f, -carSize[2]*0.5f - 0.1f);
+    glTranslatef(carPosition[0]*0.5f - 7.5f, -carPosition[1]*0.5f + 0.2f, -carPosition[2]*0.5f + 3.7f);
     glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
     drawCylinder(0.25f, 0.1f, 16);
     glPopMatrix();
 
     // Draw front right wheel
     glPushMatrix();
-    glTranslatef(carPosition[0], -carPosition[1], carPosition[2]);
+    glTranslatef(carPosition[0]*0.5f - 6.5f, -carPosition[1]*0.5f + 0.2f, carPosition[2]*0.5f - 6.0f);
     glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
     drawCylinder(0.25f, 0.1f, 16);
     glPopMatrix();
 
     // Draw rear left wheel
     glPushMatrix();
-    glTranslatef(-carSize[0] * 0.5f, -carSize[1] * 0.5f, -carSize[2] * 1.5f);
+    glTranslatef(carPosition[0]*0.5f - 7.5f, -carPosition[1]*0.5f +  0.2f, -carPosition[2]*0.5f + 6.0f);
     glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
     drawCylinder(0.25f, 0.1f, 16);
     glPopMatrix();
 
     // Draw rear right wheel
     glPushMatrix();
-    glTranslatef(carSize[0] * 0.5f, -carSize[1] * 0.5f, -carSize[2] * 1.5f);
+    glTranslatef(carPosition[0]*0.5f - 6.5f, -carPosition[1]*0.5f + 0.2f, -carPosition[2] * 0.5f + 6.0f);
     glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
     drawCylinder(0.25f, 0.1f, 16);
     glPopMatrix();
@@ -99,7 +99,7 @@ void azuritaBox(float width, float height, float depth) {
     height = height * 1.0f;
     depth = depth * 0.5f;
     glBegin(GL_QUADS);
-    glColor3ub(255, 0, 0); // red
+    glColor3ub(173, 88, 8); // Car Color
     // front
     glVertex3f(-width, -height, depth);
     glVertex3f(width, -height, depth);
