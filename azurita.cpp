@@ -21,10 +21,6 @@ typedef float Flt;
 typedef Flt Vec[3];
 float wheelRotation = 0.0f;
 
-void azuritaBox(float width, float height, float depth);
-void drawCylinder(float radius, float height, int numSegments);
-void drawCylinder(float radius, float height, int numSegments, float rotationAngle);
-
 #define MakeVector(x, y, z, v) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)
 
 static Vec carPosition;
@@ -68,28 +64,28 @@ void drawAzuritaCar(float Pos1, float Pos2, float Pos3) {
     glPushMatrix();
     glTranslatef(carPosition[0]*0.5f - 7.5f, -carPosition[1]*0.5f + 0.2f, -carPosition[2]*0.5f + 3.7f);
     glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
-    drawCylinder(0.25f, 0.1f, 16);
+    drawCarWheel(0.25f, 0.1f, 16);
     glPopMatrix();
 
     // Draw front right wheel
     glPushMatrix();
     glTranslatef(carPosition[0]*0.5f - 6.5f, -carPosition[1]*0.5f + 0.2f, carPosition[2]*0.5f - 6.0f);
     glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
-    drawCylinder(0.25f, 0.1f, 16);
+    drawCarWheel(0.25f, 0.1f, 16);
     glPopMatrix();
 
     // Draw rear left wheel
     glPushMatrix();
     glTranslatef(carPosition[0]*0.5f - 7.5f, -carPosition[1]*0.5f +  0.2f, -carPosition[2]*0.5f + 6.0f);
     glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
-    drawCylinder(0.25f, 0.1f, 16);
+    drawCarWheel(0.25f, 0.1f, 16);
     glPopMatrix();
 
     // Draw rear right wheel
     glPushMatrix();
     glTranslatef(carPosition[0]*0.5f - 6.5f, -carPosition[1]*0.5f + 0.2f, -carPosition[2] * 0.5f + 6.0f);
     glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
-    drawCylinder(0.25f, 0.1f, 16);
+    drawCarWheel(0.25f, 0.1f, 16);
     glPopMatrix();
 }
 
@@ -132,7 +128,7 @@ void azuritaBox(float width, float height, float depth) {
     glVertex3f(-width, -height, -depth);
     glEnd();
 }
-
+/*
 void drawCylinder(float radius, float height, int numSegments) {
     glBegin(GL_QUAD_STRIP);
     for (int i = 0; i <= numSegments; ++i) {
@@ -145,5 +141,52 @@ void drawCylinder(float radius, float height, int numSegments) {
     }
    glEnd();
 }
+*/
 
+void drawCarWheel(float radius, float height, int numSegments) {
+    glBegin(GL_TRIANGLE_FAN);
 
+    // Center vertex of the top face
+    glVertex3f(0.0f, 0.0f, height * 0.5f);
+
+    for (int i = 0; i <= numSegments; ++i) {
+        float theta = 2.0f * 3.1415926f * float(i) / float(numSegments);
+        float x = radius * cos(theta);
+        float y = radius * sin(theta);
+
+        // Vertex on the top face
+        glVertex3f(x, y, height * 0.5f);
+    }
+
+    glEnd();
+
+    glBegin(GL_TRIANGLE_FAN);
+
+    // Center vertex of the bottom face
+    glVertex3f(0.0f, 0.0f, -height * 0.5f);
+
+    for (int i = 0; i <= numSegments; ++i) {
+        float theta = 2.0f * 3.1415926f * float(i) / float(numSegments);
+        float x = radius * cos(theta);
+        float y = radius * sin(theta);
+
+        // Vertex on the bottom face
+        glVertex3f(x, y, -height * 0.5f);
+    }
+
+    glEnd();
+
+    glBegin(GL_QUAD_STRIP);
+    for (int i = 0; i <= numSegments; ++i) {
+        float theta = 2.0f * 3.1415926f * float(i) / float(numSegments);
+        float x = radius * cos(theta);
+        float y = radius * sin(theta);
+
+        // Vertex on the top face
+        glVertex3f(x, y, height * 0.5f);
+
+        // Vertex on the bottom face
+        glVertex3f(x, y, -height * 0.5f);
+    }
+    glEnd();
+}
