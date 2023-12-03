@@ -138,6 +138,9 @@ void physics();
 void drawStreet();
 void render();
 
+//----
+bool pointInTriangle(float, int, int);
+//----
 class Global {
 	public:
 		int xres, yres;
@@ -720,6 +723,41 @@ void render()
 	//------------------------------------------
 	//ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	glPopAttrib();
+}
+
+bool pointInTriangle(float tri[3][3], int x, int y)
+{
+	//is point <x,y> inside triangle rn?
+	//
+	//return true - point x,y is inside the triangle
+	//return false - not inside
+	//
+	float v0[3], v1[3], v2[3];
+	int sum = 0;
+	for (int i = 0; i < 3; i++) {
+		int j = (i+1) % 3;
+		//Build a vector from triangle vertex 0 to 1.
+		// (subtract vertex0 from vertex 1)
+		// Name it v0
+		v0[0] = tri[j][0] - tri[i][0];
+		v0[1] = tri[j][1] - tri[i][1];
+		//2. Build a vector perpendicular to v0. Name it v1.
+		v1[0] = v0[1];
+		v1[1] = -v0[0];
+		//3. Build a vector from triangle vertex 0 to your point
+		// Name it v2.
+		v2[0] = (Flt)x - tri[i][0];
+		v2[1] = (Flt)y - tri[i][1];
+		//4. Find the dot-product of v1, v2. Name it dot
+		Flt dot = v1[0]*v2[0] + v1[1]*v2[1];
+		//5. Add the sign of dot to a sum (negative 1 or positive 1)
+		int sign = (dot >= 0.0) ? 1:-1;
+		sum += sign;
+		//6. Repeat from step 1 for the two other triangle sides
+	}
+	//7. If the absolute-value of sum is 3
+	//the point is inside the triangle.
+	return (abs(sum) == 3);
 }
 
 
