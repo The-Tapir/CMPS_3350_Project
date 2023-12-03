@@ -1,6 +1,7 @@
 //
 //program: car.cpp
 //author:  Gordon Griesel
+//Modified by: Moss, David, Alex, Nathan
 //date:    summer 2017
 //
 //Framework for group attempting a 3D game.
@@ -151,7 +152,7 @@ class Global {
 			xres=640;
 			yres=480;
 			aspectRatio = (GLfloat)xres / (GLfloat)yres;
-			MakeVector(10.0, 2.0, 8.0, cameraPosition);
+			MakeVector(13.800, 2.250, 12.650, cameraPosition);
 			//light is up high, right a little, toward a little
 			MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
 			lightPosition[3] = 1.0f;
