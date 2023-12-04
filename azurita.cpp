@@ -52,7 +52,8 @@ void drawAzuritaCar(float Pos1, float Pos2, float Pos3) {
     glTranslatef(Pos1, Pos2, Pos3);
 
     // Drawing the car as a rectangular cube
-    azuritaBox(carSize[0], carSize[1], carSize[2]);
+    //azuritaBox(carSize[0], carSize[1], carSize[2]);
+    drawCarBody(carSize[0], carSize[1], carSize[2]);
 
     // Drawing wheels with the initial wheel rotation
     glColor3f(0.0f, 0.0f, 0.0f); // Black color for wheels
@@ -87,9 +88,10 @@ void drawAzuritaCar(float Pos1, float Pos2, float Pos3) {
     glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
     drawCarWheel(0.25f, 0.1f, 16);
     glPopMatrix();
+    glPopMatrix();
 }
 
-void azuritaBox(float width, float height, float depth) {
+void drawCarBody(float width, float height, float depth) {
 
     width = width * 0.5f;
     height = height * 1.0f;
@@ -128,20 +130,6 @@ void azuritaBox(float width, float height, float depth) {
     glVertex3f(-width, -height, -depth);
     glEnd();
 }
-/*
-void drawCylinder(float radius, float height, int numSegments) {
-    glBegin(GL_QUAD_STRIP);
-    for (int i = 0; i <= numSegments; ++i) {
-        float theta = 2.0f * 3.1415926f * float(i) / float(numSegments);
-        float x = radius * cos(theta);
-        float y = radius * sin(theta);
-
-        glVertex3f(x, y, -height * 0.5f);
-        glVertex3f(x, y, height * 0.5f);
-    }
-   glEnd();
-}
-*/
 
 void drawCarWheel(float radius, float height, int numSegments) {
     glBegin(GL_TRIANGLE_FAN);
