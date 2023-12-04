@@ -29,7 +29,7 @@ int time_since_mouse_moved(const bool get);
 void drawTrack(); 
 void drawterrain();
 void drawGuardRails();
-void drawStoplight();
+//void renderStoplight();
 void renderTree3D();
 void drawLeaves();
 void drawTrunk();

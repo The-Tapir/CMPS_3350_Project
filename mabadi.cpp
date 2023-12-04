@@ -108,11 +108,8 @@ void drawTrack() {
         unsigned int index2 = racetrack.indices[i + 1];
         unsigned int index3 = racetrack.indices[i + 2];
   glColor3f(0.3, 0.3, 0.3);  
-    //glVertex2f(-1.0, -0.5);
-    //glVertex2f(1.0, -0.5);
-    //glVertex2f(1.0, -1.0);
-    //glVertex2f(-1.0, -1.0);
-        glVertex3fv(racetrack.vertices[index1].position);
+       
+  glVertex3fv(racetrack.vertices[index1].position);
         glVertex3fv(racetrack.vertices[index2].position);
         glVertex3fv(racetrack.vertices[index3].position);
     }
@@ -190,11 +187,103 @@ void renderTree3D() {
     glPopMatrix();  
 }
 
+
+void drawSphere(float radius, int slices, int stacks, GLfloat r, GLfloat g, GLfloat b) {
+    glColor3f(r, g, b);
+    glBegin(GL_TRIANGLE_FAN);
+    for (int i = 0; i <= stacks; ++i) {
+        float phi = M_PI * i / stacks;
+        for (int j = 0; j <= slices; ++j) {
+            float theta = 2.0f * M_PI * j / slices;
+            float x = radius * sin(phi) * cos(theta);
+            float y = radius * cos(phi);
+           float z = radius * sin(phi) * sin(theta);
+            glVertex3f(x, y, z);
+        }
+    }
+    glEnd();
+}
+
+void renderStoplight() {
+    // Pole parameters
+    float poleRadius = 0.05f;
+    float poleHeight = 2.0f;
+
+    // Light parameters
+    float lightRadius = 0.2f;
+
+    glPushMatrix();
+    // Adjust the position of the stoplight
+    glTranslatef(0.0f, -1.0f, 0.0f);
+
+    // Draw pole (cylinder)
+    glColor3f(0.3f, 0.3f, 0.3f); // Gray color
+    glBegin(GL_QUAD_STRIP);
+    for (int i = 0; i <= 20; i++) {
+        float angle = 2.0f * M_PI * i / 20;
+        float x = poleRadius * cos(angle);
+        float z = poleRadius * sin(angle);
+        glVertex3f(x, 0.0f, z);
+        glVertex3f(x, poleHeight, z);
+    }
+    glEnd();
+
+    // Draw red light (sphere)
+    glTranslatef(0.0f, poleHeight, 0.0f);
+    drawSphere(lightRadius, 20, 20, 1.0f, 0.0f, 0.0f);
+
+    // Draw yellow light (sphere)
+    glTranslatef(0.0f, lightRadius * 2.0f, 0.0f);
+    drawSphere(lightRadius, 20, 20, 1.0f, 1.0f, 0.0f);
+
+    // Draw green light (sphere)
+    glTranslatef(0.0f, lightRadius * 2.0f, 0.0f);
+    drawSphere(lightRadius, 20, 20, 0.0f, 1.0f, 0.0f);
+
+    glPopMatrix();
+}
+
+void renderStartLine() {
+    float lineWidth = 10.0f;
+    float lineLength = 6.3555f;
+
+    glPushMatrix();
+    glTranslatef(0.0f, 0.0f, -5.0f);  // Adjust the z-coordinate as needed
+
+    // Draw the white line 
+    glColor3f(1.0f, 1.0f, 1.0f);  // White color
+    glLineWidth(lineWidth);
+    glBegin(GL_LINES);
+    glVertex3f(-lineLength / 2.0f, 0.0f, 0.0f);
+    glVertex3f(lineLength / 2.0f, 0.0f, 0.0f);
+    glEnd();
+
+    glPopMatrix();
+
+}
+
+
 void renderScene() {
-    // Other rendering code...
-//std::cout << "Rendering scene" << std::endl;
-    // Render the first tree
-glPopMatrix();
+    
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(13.735f, 0.6f, 7.0f);  // Adjust the z-coordinate as needed
+    renderStartLine();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(9.5f, 0.7f, -2.0f); // Adjust the position of the stoplight
+    renderStoplight();
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glTranslatef(20.5f, 0.5f, -2.0f); // Adjust the position of the stoplight
+    renderStoplight();
+    glPopMatrix();
+
+
     glPushMatrix();
     glTranslatef(-4.5f, -1.58f, -2.0f); // Adjust the position of the first tree
     renderTree3D();

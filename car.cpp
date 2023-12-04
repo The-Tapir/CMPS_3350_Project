@@ -293,6 +293,8 @@ void check_mouse(XEvent *e)
 	}
 	mouseMovement(e, false);    
 }
+
+
 int check_keys(XEvent *e)
 {
 	//Was there input from the keyboard?
@@ -388,6 +390,8 @@ int check_keys(XEvent *e)
 	}
 	return 0;
 }
+
+
 
 void box(float w1, float h1, float d1)
 {
@@ -626,11 +630,10 @@ void render()
         drawTrack();
         drawterrain();
         renderTree3D();
-        //drawLeaves();
-        //drawTrunk();
+       
         physics();
         drawAzuritaCar(Pos1, Pos2, Pos3);
-        renderScene();
+       renderScene();
 	} else if (gameState == HIGHSCORE) {
 		drawHighscore();
 	}
