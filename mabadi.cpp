@@ -277,21 +277,19 @@ void renderScene() {
     renderStoplight();
     glPopMatrix();
 
-
     glPushMatrix();
-    glTranslatef(20.5f, 0.5f, -2.0f); // Adjust the position of the stoplight
+    glTranslatef(18.5f, 0.8f, -2.0f); // Adjust the position of the stoplight
     renderStoplight();
     glPopMatrix();
 
-
     glPushMatrix();
-    glTranslatef(-4.5f, -1.58f, -2.0f); // Adjust the position of the first tree
+    glTranslatef(-4.5f, 0.0f, -2.0f); // Adjust the position of the first tree
     renderTree3D();
     glPopMatrix();
 
     // Render the second tree near car
     glPushMatrix();
-    glTranslatef(-5.0f, 0.30f, -20.0f); // Adjust the position of the second tree
+    glTranslatef(-4.0f, 0.0f, 6.0f); // Adjust the position of the second tree
     renderTree3D();
     glPopMatrix();
 
@@ -309,7 +307,6 @@ void renderScene() {
     renderTree3D();
     glPopMatrix();
 
-
 //5th tree
 
     glPushMatrix();
@@ -317,5 +314,6 @@ void renderScene() {
     renderTree3D();
     glPopMatrix();
    
+
 }
 
