@@ -103,7 +103,8 @@ class Global {
 			xres=640;
 			yres=480;
 			aspectRatio = (GLfloat)xres / (GLfloat)yres;
-			MakeVector(13.800, 2.250, 12.650, cameraPosition);
+			float test = 13.800;
+			MakeVector(test, 2.250, 12.650, cameraPosition);
 			//light is up high, right a little, toward a little
 			MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
 			lightPosition[3] = 1.0f;
@@ -369,6 +370,12 @@ int check_keys(XEvent *e)
               dir[0] = cos(g.cameraAngle);
               dir[2] = sin(g.cameraAngle);
               dir[1] = 0.0;
+	  
+
+	      //g.cameraPosition[0] += car_acceleration(true);
+	      //g.cameraPosition[1] += car_acceleration(true);
+	      //g.cameraPosition[2] += car_acceleration(true);
+
               VecAdd(g.cameraPosition, dir, g.cameraPosition);
               break;
 
@@ -585,6 +592,7 @@ void physics()
 
 
 	//
+	car_acceleration(false);
 	total_physics_function_calls(false);
 }
 

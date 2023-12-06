@@ -81,3 +81,21 @@ int key_presses(const bool get) {
 	return 0;
 }
 
+float car_acceleration(bool gas) {
+
+	float velocity = 0.0;
+
+	if (gas) {
+		velocity += 2.5;
+	}
+
+	else {
+		if (velocity > 0) {
+			velocity -= .001;
+		}
+
+	}
+	return velocity;
+}
+
+
