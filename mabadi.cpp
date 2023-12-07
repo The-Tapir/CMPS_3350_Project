@@ -4,7 +4,7 @@
 // Required for the time functions
 using namespace std::chrono;  // This allows easier access to the chrono functions
 // Function to load an OBJ file
-int faceIndex = 0; // Variable to keep track of face index
+int faceIndex = 0; 
 OBJMesh loadOBJ(const std::string& racetrack) {
     OBJMesh mesh;
     //faceIndex();    
@@ -19,23 +19,23 @@ OBJMesh loadOBJ(const std::string& racetrack) {
         std::string token;
         iss >> token;
         if (token == "v") {
-            // Vertex position
             Vertex vertex;
             iss >> vertex.position[0] >> vertex.position[1] >> vertex.position[2];
             vertices.push_back(vertex);
         }
         else if (token == "f") {
-            // Face 
+            //This code below will be the face of the track. 
             for (int i = 0; i < 3; i++) {
                 std::vector<Vertex>::size_type vIndex;
                 std::string vertexStr;
                 iss >> vertexStr;
-                // Split the vertex string into parts using '/'
+               // So the forward slash in the code will pretty much cut up
+               // The vertex or the face of the tack. 
                 std::istringstream vertexStream(vertexStr);
                 std::getline(vertexStream, token, '/');
                 vIndex = std::stoi(token);
                 if (vIndex <= vertices.size()) {
-                    // Valid vertex index
+                    
                     mesh.vertices.push_back(vertices[vIndex - 1]);
                     //mesh.indices.push_back(vIndex - 1);
                     mesh.indices.push_back(faceIndex++);
@@ -46,16 +46,15 @@ OBJMesh loadOBJ(const std::string& racetrack) {
     }
     return mesh;
 }
-//Mouse Timer functions.
-int time_since_mouse_moved(const bool get)
-{
-static std::chrono::steady_clock::time_point lastMouseMoveTime = std::chrono::steady_clock::now();
-if (!get) {
-// Update the time
+//This was meant to be the code to test the mouse timer functions but it ended calculating the mouse distance
+int time_since_mouse_moved(const bool get) {
+    static std::chrono::steady_clock::time_point lastMouseMoveTime = std::chrono::steady_clock::now();
+    if (!get) {
+       
         lastMouseMoveTime = std::chrono::steady_clock::now();
         return 0;
     }
-    // Calculate the time difference
+    
     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
     std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(now - lastMouseMoveTime);
     int elapsedTime = static_cast<int>(time_span.count());
@@ -63,7 +62,9 @@ if (!get) {
 }
 OBJMesh racetrack = loadOBJ("racetrack.obj");
 OBJMesh terrain = loadOBJ("terrain.obj");
-    struct Vec3 {
+
+//These functions below here to make the guard rails I could not really figure out I took them from the car.cpp framework. I was not able to make them display.
+struct Vec3 {
     float x, y, z;
 };
 Vec3 subtract(const Vec3& v1, const Vec3& v2) {
@@ -73,32 +74,29 @@ Vec3 add(const Vec3& v1, const Vec3& v2) {
     return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
 }
 Vec3 interpolatePosition(const OBJMesh& racetrack, float distance) {
-    //I will put some code here
-     return {};
+    //I had code here but it was not working for me.
+    return {};
 }
-    // Draw guard rails along the racetrack
 void drawGuardRails(const OBJMesh& racetrack) {
     glColor3f(1.0f, 1.0f, 1.0f);
     for (float distance = 0.0f; distance < 100.0f; distance += 2.5f) {
         Vec3 position = interpolatePosition(racetrack, distance);
         glPushMatrix();
         glTranslatef(position.x, position.y, position.z);
-                // Draw the  guard rail
-float railWidth = 0.2f;
-float railHeight = 5.0f;
-float railDepth = 0.2f;
-glBegin(GL_TRIANGLES);
-// faces below
-glVertex3f(-railWidth / 2, 0.0f, 0.0f);
-glVertex3f(railWidth / 2, 0.0f, 0.0f);
-glVertex3f(railWidth / 2, railHeight, 0.0f);
-glVertex3f(-railWidth / 2, railHeight, 0.0f);
-glVertex3f(-railWidth / 2, 0.0f, -railDepth);
-glVertex3f(railWidth / 2, 0.0f, -railDepth);
-glVertex3f(railWidth / 2, railHeight, -railDepth);
-glVertex3f(-railWidth / 2, railHeight, -railDepth);
-glEnd();
-glPopMatrix();
+       float railWidth = 0.2f;
+        float railHeight = 5.0f;
+        float railDepth = 0.2f;
+        glBegin(GL_TRIANGLES);
+       glVertex3f(-railWidth / 2, 0.0f, 0.0f);
+        glVertex3f(railWidth / 2, 0.0f, 0.0f);
+        glVertex3f(railWidth / 2, railHeight, 0.0f);
+        glVertex3f(-railWidth / 2, railHeight, 0.0f);
+        glVertex3f(-railWidth / 2, 0.0f, -railDepth);
+        glVertex3f(railWidth / 2, 0.0f, -railDepth);
+        glVertex3f(railWidth / 2, railHeight, -railDepth);
+        glVertex3f(-railWidth / 2, railHeight, -railDepth);
+        glEnd();
+        glPopMatrix();
     }
 }
 void drawTrack() {
@@ -107,31 +105,30 @@ void drawTrack() {
         unsigned int index1 = terrain.indices[i];
         unsigned int index2 = terrain.indices[i + 1];
         unsigned int index3 = terrain.indices[i + 2];
-  glColor3f(0.0, 0.8, 0.0);  
-       
-  glVertex3fv(terrain.vertices[index1].position);
+        glColor3f(0.0, 0.8, 0.0);  
+
+        glVertex3fv(terrain.vertices[index1].position);
         glVertex3fv(terrain.vertices[index2].position);
         glVertex3fv(terrain.vertices[index3].position);
     }
     //glEnd();
     glEnd();
     //glPopMatrix();    
-//    
+    //    
 }    
 void drawTerrain() {
     glBegin(GL_TRIANGLES);
     for (std::vector<unsigned int>::size_type i = 0; i < racetrack.indices.size(); i += 3) {
         unsigned int index1 = racetrack.indices[i];
-            unsigned int index2 = racetrack.indices[i + 1];
+        unsigned int index2 = racetrack.indices[i + 1];
         unsigned int index3 = racetrack.indices[i + 2];
-        // Assuming racetrack.vertices is a vector of Vertex
-        glColor3f(0.3, 0.3, 0.3);  // Black color for the race track
+       glColor3f(0.3, 0.3, 0.3);  // Black color for the race track
         glVertex3fv(racetrack.vertices[index1].position);
         glVertex3fv(racetrack.vertices[index2].position);
         glVertex3fv(racetrack.vertices[index3].position);
     }
     glEnd();
-   }
+}
 void drawTree3D() {
     // This is a measure of the Trunk or bottom of the tree
     float trunkRadius = 0.1f;
@@ -143,7 +140,7 @@ void drawTree3D() {
     int leavesSlices = 20;
     glPushMatrix(); 
     glScalef(5.0f, 5.0f, 5.0f); 
-    
+
     glColor3f(0.5f, 0.35f, 0.05f); // Just draw the color of the trunk a Brown color
     glBegin(GL_QUAD_STRIP);
     for (int i = 0; i <= trunkSlices; i++) {
@@ -154,7 +151,7 @@ void drawTree3D() {
         glVertex3f(x, trunkHeight, z);
     }
     glEnd();
-    
+
     glColor3f(0.0f, 0.8f, 0.0f); // Green color
     glBegin(GL_TRIANGLE_FAN);
     glVertex3f(0.0f, trunkHeight + leavesHeight, 0.0f); //This will measure the very top of the tree or leaves.
@@ -162,7 +159,7 @@ void drawTree3D() {
         float angle = 2.0f * M_PI * i / leavesSlices;
         float x = leavesRadius * cos(angle);
         float z = leavesRadius * sin(angle);
-    glVertex3f(x, trunkHeight, z);
+        glVertex3f(x, trunkHeight, z);
     }
     glEnd();
     glPopMatrix();  
@@ -187,11 +184,10 @@ void drawStoplight() {
     float poleRadius = 0.05f;
     float poleHeight = 2.0f;
 
-    // Measure the of the light ball circle.
-    float lightRadius = 0.2f;
+   float lightRadius = 0.2f;
 
     glPushMatrix();
-    // Adjust the position of the stoplight
+    
     glTranslatef(0.0f, -1.0f, 0.0f);
 
     // This function below will draw the color of the pole and also make it into the shape we want it which is a cylinder.
@@ -273,7 +269,7 @@ void draw2DDiamondStar(float size, GLfloat r, GLfloat g, GLfloat b) {
 
 //This function below just pretty much adjusts the positions of functions and we call startline, stoplight, moon, and stars in here. Then we call drawScene in in car.cpp
 void drawScene() {
-    
+
     glPopMatrix();
 
     glPushMatrix();
@@ -295,7 +291,7 @@ void drawScene() {
     drawTree3D();
     glPopMatrix();
 
-    
+
     glPushMatrix();
     glTranslatef(-4.0f, 0.0f, 6.0f);
     drawTree3D();
@@ -323,20 +319,22 @@ void drawScene() {
     drawMoon(3.0f, 50, 50, 1.0f, 1.0f, 1.0f); 
     glPopMatrix();
 
-    //This srand function will randomise the stars position.
-     srand(static_cast<unsigned int>(time(nullptr)));
+    //We use this srand function below so it could just put our stars in random places 
+    srand(static_cast<unsigned int>(time(nullptr)));
 
-    //This for loop below will draw out 100 stars
+    //The for loop below will be able to mulitple stars instead of itn just outputting 1 for example
     for (int i = 0; i < 250; ++i) {
-        //These two coordinates below are the coordinates for the stars
+      
+       //Below these float functions and static functions will draw like two shapes and put them together to make the star.
         float x = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; 
-        float y = static_cast<float>(rand()) / RAND_MAX * 20.0f + 10.0f;           float z = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; 
-        // draw the star
+        float y = static_cast<float>(rand()) / RAND_MAX * 20.0f + 10.0f;           
+        float z = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; 
+       
         glPushMatrix();
         glTranslatef(x, y, z);
         draw2DDiamondStar(1.0f, 1.0f, 1.0f, 1.0f); 
         glPopMatrix();
     } 
-    
+
 
 }
