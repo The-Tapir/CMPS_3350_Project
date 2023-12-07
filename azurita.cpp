@@ -13,6 +13,7 @@
 // Current main goal implement the car on track ----> Note: after this try to implement the mmovement of the car. 2nd goal would be to be able to make the car move forward, backward, left and right
 
 #include "azurita.h"
+//#include "common.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -20,6 +21,11 @@ using namespace std::chrono;
 typedef float Flt;
 typedef Flt Vec[3];
 float wheelRotation = 0.0f;
+
+float Pos1 = 13.99999f;
+float Pos2 = 1.2547f;
+float Pos3 = 9.65f;
+float theta = 3.100f;
 
 #define MakeVector(x, y, z, v) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)
 
@@ -42,14 +48,29 @@ void initializeAzuritaCarAttributes(float Pos1, float Pos2, float Pos3) {
         wheelsInitialized = true; // Mark initialization as done
     }
 }
-
-void drawAzuritaCar(float Pos1, float Pos2, float Pos3) {
+void drawAzuritaCar(float Pos1, float Pos2, float Pos3, float theta) {
     initializeAzuritaCarAttributes(Pos1, Pos2, Pos3);
 
     glPushMatrix();
 
     glColor3f(1.0f, 0.0f, 0.0f); // Red color
+
+    // Translate and rotate the entire car
     glTranslatef(Pos1, Pos2, Pos3);
+    glRotatef(theta * (180.0f / 3.1415926f), 0.0f, 1.0f, 0.0f);  // Convert radians to degrees
+
+    // Calculate new position based on the rotation angle
+    float displacement = 1.0f;  // Adjust the displacement as needed
+    float newPos1 = Pos1 + displacement * cos(theta);
+    float newPos3 = Pos3 + displacement * sin(theta);
+
+    std::cout << "a- " << newPos1 << " b- " << newPos3;
+
+// Update the car position variables
+Pos1 = newPos1;
+Pos3 = newPos3;
+    // Translate the car to the new position
+    glTranslatef(newPos1 - Pos1, 0.0f, newPos3 - Pos3);
 
     // Drawing the car as a rectangular cube
     //azuritaBox(carSize[0], carSize[1], carSize[2]);
@@ -57,7 +78,6 @@ void drawAzuritaCar(float Pos1, float Pos2, float Pos3) {
 
     // Drawing wheels with the initial wheel rotation
     glColor3f(0.0f, 0.0f, 0.0f); // Black color for wheels
-
     // Declare localWheelRotation once
     float localWheelRotation = wheelRotation;
 
