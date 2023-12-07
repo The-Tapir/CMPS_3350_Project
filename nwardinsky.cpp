@@ -98,4 +98,24 @@ float car_acceleration(bool gas) {
 	return velocity;
 }
 
+void playCarSound() {
+	ALuint buffer, source;
+
+	buffer = alutCreateBufferFromFile("./sounds/car_sound.wav");
+	alGenSources(1,&source);
+	alSourcef(source, AL_GAIN, 0.05f);
+	alSourcei(source, AL_BUFFER, buffer);
+	alSourcePlay(source);
+}
+
+void cleanupAL() {
+	ALCcontext *Context = alcGetCurrentContext();
+	ALCdevice *Device = alcGetContextsDevice(Context);
+
+	//ALCcontext Context = alcGetCurrentContext();
+	//ALCdevice Device = alcGetContextsDevice(Context);
+	alcMakeContextCurrent(NULL);
+	alcDestroyContext(Context);
+	alcCloseDevice(Device);
+}
 

@@ -207,6 +207,7 @@ class X11_wrapper {
 int main()
 {
 	init_opengl();
+	init();
 	int done = 0;
 	//----------------------------
 	total_running_time(false);
@@ -223,12 +224,14 @@ int main()
 		x11.swapBuffers();
 	}
 	cleanup_fonts();
+	cleanupAL();
 	return 0;
 }
 
 void init()
 {
 
+	alutInit(0, NULL);
 }
 
 void init_opengl()
@@ -367,6 +370,7 @@ int check_keys(XEvent *e)
 
           case XK_w:
               //move car forward
+	      playCarSound();
               dir[0] = cos(g.cameraAngle);
               dir[2] = sin(g.cameraAngle);
               dir[1] = 0.0;
