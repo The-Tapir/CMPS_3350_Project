@@ -7,6 +7,9 @@
 #include <chrono>
 #include <typeinfo>
 #include <string>
+#include <AL/al.h>
+#include <AL/alc.h>
+#include <AL/alut.h>
 //#include <openal-soft/AL/alc.h>
 
 int timer();
