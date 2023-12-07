@@ -35,166 +35,164 @@ bool wheelsInitialized = false;
 
 // Initialization of the car's attributes
 void initializeAzuritaCarAttributes(float Pos1, float Pos2, float Pos3) {
-    if (!wheelsInitialized) {
-        // Set the initial position of the car
-        MakeVector(Pos1, Pos2, Pos3, carPosition);
+	if (!wheelsInitialized) {
+		// Set the initial position of the car
+		MakeVector(Pos1, Pos2, Pos3, carPosition);
 
-        // Set the size of the car (as a simple rectangle)
-        MakeVector(1.0f, 0.5f, 2.5f, carSize);
+		// Set the size of the car (as a simple rectangle)
+		MakeVector(1.0f, 0.5f, 2.5f, carSize);
 
-        // Rotate the wheels to the correct initial position
-        wheelRotation = 90.0f; // Add a global variable for wheel rotation
+		// Rotate the wheels to the correct initial position
+		wheelRotation = 90.0f; // Add a global variable for wheel rotation
 
-        wheelsInitialized = true; // Mark initialization as done
-    }
+		wheelsInitialized = true; // Mark initialization as done
+	}
 }
 void drawAzuritaCar(float Pos1, float Pos2, float Pos3, float theta) {
-    initializeAzuritaCarAttributes(Pos1, Pos2, Pos3);
+	initializeAzuritaCarAttributes(Pos1, Pos2, Pos3);
 
-    glPushMatrix();
+	glPushMatrix();
 
-    glColor3f(1.0f, 0.0f, 0.0f); // Red color
+	glColor3f(1.0f, 0.0f, 0.0f); // Red color
 
-    // Translate and rotate the entire car
-    glTranslatef(Pos1, Pos2, Pos3);
-    glRotatef(theta * (180.0f / 3.1415926f), 0.0f, 1.0f, 0.0f);  // Convert radians to degrees
+	// Translate and rotate the entire car
+	glTranslatef(Pos1, Pos2, Pos3);
+	glRotatef(theta * (180.0f / 3.1415926f), 0.0f, 1.0f, 0.0f);  // Convert radians to degrees
 
-    // Calculate new position based on the rotation angle
-    float displacement = 1.0f;  // Adjust the displacement as needed
-    float newPos1 = Pos1 + displacement * cos(theta);
-    float newPos3 = Pos3 + displacement * sin(theta);
+	// Calculate new position based on the rotation angle
+	float displacement = 1.0f;  // Adjust the displacement as needed
+	float newPos1 = Pos1 + displacement * cos(theta);
+	float newPos3 = Pos3 + displacement * sin(theta);
 
-    std::cout << "a- " << newPos1 << " b- " << newPos3;
+	// Update the car position variables
+	Pos1 = newPos1;
+	Pos3 = newPos3;
+	// Translate the car to the new position
+	glTranslatef(newPos1 - Pos1, 0.0f, newPos3 - Pos3);
 
-// Update the car position variables
-Pos1 = newPos1;
-Pos3 = newPos3;
-    // Translate the car to the new position
-    glTranslatef(newPos1 - Pos1, 0.0f, newPos3 - Pos3);
+	// Drawing the car as a rectangular cube
+	//azuritaBox(carSize[0], carSize[1], carSize[2]);
+	drawCarBody(carSize[0], carSize[1], carSize[2]);
 
-    // Drawing the car as a rectangular cube
-    //azuritaBox(carSize[0], carSize[1], carSize[2]);
-    drawCarBody(carSize[0], carSize[1], carSize[2]);
+	// Drawing wheels with the initial wheel rotation
+	glColor3f(0.0f, 0.0f, 0.0f); // Black color for wheels
+	// Declare localWheelRotation once
+	float localWheelRotation = wheelRotation;
 
-    // Drawing wheels with the initial wheel rotation
-    glColor3f(0.0f, 0.0f, 0.0f); // Black color for wheels
-    // Declare localWheelRotation once
-    float localWheelRotation = wheelRotation;
+	// Draw front left wheel
+	glPushMatrix();
+	glTranslatef(carPosition[0]*0.5f - 7.5f, -carPosition[1]*0.5f + 0.2f, -carPosition[2]*0.5f + 3.7f);
+	glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
+	drawCarWheel(0.25f, 0.1f, 16);
+	glPopMatrix();
 
-    // Draw front left wheel
-    glPushMatrix();
-    glTranslatef(carPosition[0]*0.5f - 7.5f, -carPosition[1]*0.5f + 0.2f, -carPosition[2]*0.5f + 3.7f);
-    glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
-    drawCarWheel(0.25f, 0.1f, 16);
-    glPopMatrix();
+	// Draw front right wheel
+	glPushMatrix();
+	glTranslatef(carPosition[0]*0.5f - 6.5f, -carPosition[1]*0.5f + 0.2f, carPosition[2]*0.5f - 6.0f);
+	glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
+	drawCarWheel(0.25f, 0.1f, 16);
+	glPopMatrix();
 
-    // Draw front right wheel
-    glPushMatrix();
-    glTranslatef(carPosition[0]*0.5f - 6.5f, -carPosition[1]*0.5f + 0.2f, carPosition[2]*0.5f - 6.0f);
-    glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
-    drawCarWheel(0.25f, 0.1f, 16);
-    glPopMatrix();
+	// Draw rear left wheel
+	glPushMatrix();
+	glTranslatef(carPosition[0]*0.5f - 7.5f, -carPosition[1]*0.5f +  0.2f, -carPosition[2]*0.5f + 6.0f);
+	glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
+	drawCarWheel(0.25f, 0.1f, 16);
+	glPopMatrix();
 
-    // Draw rear left wheel
-    glPushMatrix();
-    glTranslatef(carPosition[0]*0.5f - 7.5f, -carPosition[1]*0.5f +  0.2f, -carPosition[2]*0.5f + 6.0f);
-    glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
-    drawCarWheel(0.25f, 0.1f, 16);
-    glPopMatrix();
-
-    // Draw rear right wheel
-    glPushMatrix();
-    glTranslatef(carPosition[0]*0.5f - 6.5f, -carPosition[1]*0.5f + 0.2f, -carPosition[2] * 0.5f + 6.0f);
-    glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
-    drawCarWheel(0.25f, 0.1f, 16);
-    glPopMatrix();
-    glPopMatrix();
+	// Draw rear right wheel
+	glPushMatrix();
+	glTranslatef(carPosition[0]*0.5f - 6.5f, -carPosition[1]*0.5f + 0.2f, -carPosition[2] * 0.5f + 6.0f);
+	glRotatef(localWheelRotation, 0.0f, 1.0f, 0.0f);
+	drawCarWheel(0.25f, 0.1f, 16);
+	glPopMatrix();
+	glPopMatrix();
 }
 
 void drawCarBody(float width, float height, float depth) {
 
-    width = width * 0.5f;
-    height = height * 1.0f;
-    depth = depth * 0.5f;
-    glBegin(GL_QUADS);
-    glColor3ub(173, 88, 8); // Car Color
-    // front
-    glVertex3f(-width, -height, depth);
-    glVertex3f(width, -height, depth);
-    glVertex3f(width, height, depth);
-    glVertex3f(-width, height, depth);
-    // back
-    glVertex3f(-width, -height, -depth);
-    glVertex3f(width, -height, -depth);
-    glVertex3f(width, height, -depth);
-    glVertex3f(-width, height, -depth);
-    // top
-    glVertex3f(-width, height, depth);
-    glVertex3f(width, height, depth);
-    glVertex3f(width, height, -depth);
-    glVertex3f(-width, height, -depth);
-    // bottom
-    glVertex3f(-width, -height, depth);
-    glVertex3f(width, -height, depth);
-    glVertex3f(width, -height, -depth);
-    glVertex3f(-width, -height, -depth);
-    // right
-    glVertex3f(width, -height, depth);
-    glVertex3f(width, height, depth);
-    glVertex3f(width, height, -depth);
-    glVertex3f(width, -height, -depth);
-    // left
-    glVertex3f(-width, -height, depth);
-    glVertex3f(-width, height, depth);
-    glVertex3f(-width, height, -depth);
-    glVertex3f(-width, -height, -depth);
-    glEnd();
+	width = width * 0.5f;
+	height = height * 1.0f;
+	depth = depth * 0.5f;
+	glBegin(GL_QUADS);
+	glColor3ub(173, 88, 8); // Car Color
+	// front
+	glVertex3f(-width, -height, depth);
+	glVertex3f(width, -height, depth);
+	glVertex3f(width, height, depth);
+	glVertex3f(-width, height, depth);
+	// back
+	glVertex3f(-width, -height, -depth);
+	glVertex3f(width, -height, -depth);
+	glVertex3f(width, height, -depth);
+	glVertex3f(-width, height, -depth);
+	// top
+	glVertex3f(-width, height, depth);
+	glVertex3f(width, height, depth);
+	glVertex3f(width, height, -depth);
+	glVertex3f(-width, height, -depth);
+	// bottom
+	glVertex3f(-width, -height, depth);
+	glVertex3f(width, -height, depth);
+	glVertex3f(width, -height, -depth);
+	glVertex3f(-width, -height, -depth);
+	// right
+	glVertex3f(width, -height, depth);
+	glVertex3f(width, height, depth);
+	glVertex3f(width, height, -depth);
+	glVertex3f(width, -height, -depth);
+	// left
+	glVertex3f(-width, -height, depth);
+	glVertex3f(-width, height, depth);
+	glVertex3f(-width, height, -depth);
+	glVertex3f(-width, -height, -depth);
+	glEnd();
 }
 
 void drawCarWheel(float radius, float height, int numSegments) {
-    glBegin(GL_TRIANGLE_FAN);
+	glBegin(GL_TRIANGLE_FAN);
 
-    // Center vertex of the top face
-    glVertex3f(0.0f, 0.0f, height * 0.5f);
+	// Center vertex of the top face
+	glVertex3f(0.0f, 0.0f, height * 0.5f);
 
-    for (int i = 0; i <= numSegments; ++i) {
-        float theta = 2.0f * 3.1415926f * float(i) / float(numSegments);
-        float x = radius * cos(theta);
-        float y = radius * sin(theta);
+	for (int i = 0; i <= numSegments; ++i) {
+		float theta = 2.0f * 3.1415926f * float(i) / float(numSegments);
+		float x = radius * cos(theta);
+		float y = radius * sin(theta);
 
-        // Vertex on the top face
-        glVertex3f(x, y, height * 0.5f);
-    }
+		// Vertex on the top face
+		glVertex3f(x, y, height * 0.5f);
+	}
 
-    glEnd();
+	glEnd();
 
-    glBegin(GL_TRIANGLE_FAN);
+	glBegin(GL_TRIANGLE_FAN);
 
-    // Center vertex of the bottom face
-    glVertex3f(0.0f, 0.0f, -height * 0.5f);
+	// Center vertex of the bottom face
+	glVertex3f(0.0f, 0.0f, -height * 0.5f);
 
-    for (int i = 0; i <= numSegments; ++i) {
-        float theta = 2.0f * 3.1415926f * float(i) / float(numSegments);
-        float x = radius * cos(theta);
-        float y = radius * sin(theta);
+	for (int i = 0; i <= numSegments; ++i) {
+		float theta = 2.0f * 3.1415926f * float(i) / float(numSegments);
+		float x = radius * cos(theta);
+		float y = radius * sin(theta);
 
-        // Vertex on the bottom face
-        glVertex3f(x, y, -height * 0.5f);
-    }
+		// Vertex on the bottom face
+		glVertex3f(x, y, -height * 0.5f);
+	}
 
-    glEnd();
+	glEnd();
 
-    glBegin(GL_QUAD_STRIP);
-    for (int i = 0; i <= numSegments; ++i) {
-        float theta = 2.0f * 3.1415926f * float(i) / float(numSegments);
-        float x = radius * cos(theta);
-        float y = radius * sin(theta);
+	glBegin(GL_QUAD_STRIP);
+	for (int i = 0; i <= numSegments; ++i) {
+		float theta = 2.0f * 3.1415926f * float(i) / float(numSegments);
+		float x = radius * cos(theta);
+		float y = radius * sin(theta);
 
-        // Vertex on the top face
-        glVertex3f(x, y, height * 0.5f);
+		// Vertex on the top face
+		glVertex3f(x, y, height * 0.5f);
 
-        // Vertex on the bottom face
-        glVertex3f(x, y, -height * 0.5f);
-    }
-    glEnd();
+		// Vertex on the bottom face
+		glVertex3f(x, y, -height * 0.5f);
+	}
+	glEnd();
 }
