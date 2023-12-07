@@ -34,4 +34,8 @@ void renderTree3D();
 void drawLeaves();
 void drawTrunk();
 void renderScene();
+void drawMoon(float radius, int slices, int stacks, GLfloat r, GLfloat g, GLfloat b);
+void draw2DDiamondStar(float size, GLfloat r, GLfloat g, GLfloat b);
+void initializeStars();
+
 #endif

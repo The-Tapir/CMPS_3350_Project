@@ -262,6 +262,70 @@ void renderStartLine() {
 
 }
 
+void drawMoon(float radius, int slices, int stacks, GLfloat r, GLfloat g, GLfloat b) {
+    glColor3f(255, 255, 255);
+    glBegin(GL_TRIANGLE_FAN);
+    for (int i = 0; i <= stacks; ++i) {
+        float phi = M_PI * i / stacks;
+        for (int j = 0; j <= slices; ++j) {
+            float theta = 2.0f * M_PI * j / slices;
+            float x = radius * sin(phi) * cos(theta);
+            float y = radius * cos(phi);
+            float z = radius * sin(phi) * sin(theta);
+            glVertex3f(x, y, z);
+        }
+    }
+    glEnd();
+}
+
+
+void draw2DDiamondStar(float size, GLfloat r, GLfloat g, GLfloat b) {
+    glColor3f(255, 255, 255);
+    glBegin(GL_TRIANGLES);
+
+    // Draw the diamond star using two triangles
+    glVertex2f(0.0f, size / 2.0f);            // Top point
+    glVertex2f(size / 2.0f, 0.0f);            // Right point
+    glVertex2f(0.0f, -size / 2.0f);           // Bottom point
+
+    glVertex2f(0.0f, size / 2.0f);            // Top point
+    glVertex2f(-size / 2.0f, 0.0f);           // Left point
+    glVertex2f(0.0f, -size / 2.0f);           // Bottom point
+
+    glEnd();
+}
+
+
+/*
+//bool starsInitialized = false;  // Variable to track whether stars are initialized
+
+void initializeStars() {
+     
+//    bool starsInitialized = false;  // Variable to track whether stars are initialized
+
+    if (!starsInitialized) {
+        srand(static_cast<unsigned int>(time(nullptr)));
+
+        // Render 100 stars
+        for (int i = 0; i < 250; ++i) {
+            // Generate random coordinates
+            float x = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; // Range: -10.0f to 10.0f
+            float y = static_cast<float>(rand()) / RAND_MAX * 8.0f + 7.0f;   // Range: 7.0f to 15.0f
+            float z = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; // Range: -10.0f to 10.0f
+
+            // Render the star
+            glPushMatrix();
+            glTranslatef(x, y, z);
+            draw2DDiamondStar(1.0f, 1.0f, 1.0f, 1.0f); // Adjust the size and color as needed
+            glPopMatrix();
+        }
+
+        starsInitialized = true;  // Set the flag to true after initialization
+    }
+}
+*/
+
+
 
 void renderScene() {
     
@@ -313,7 +377,28 @@ void renderScene() {
     glTranslatef(9.0f, -0.2f, -14.0f); // Adjust the position of the third tree
     renderTree3D();
     glPopMatrix();
-   
+
+    glPushMatrix();
+    glTranslatef(30.0f, 20.0f, -70.0f); // Adjust the position of the moon
+    drawMoon(3.0f, 50, 50, 1.0f, 1.0f, 1.0f); // Customize the parameters as needed
+    glPopMatrix();
+
+
+     srand(static_cast<unsigned int>(time(nullptr)));
+
+    // Render 100 stars
+    for (int i = 0; i < 250; ++i) {
+        // Generate random coordinates
+        float x = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; // Range: -10.0f to 10.0f
+        float y = static_cast<float>(rand()) / RAND_MAX * 20.0f + 10.0f;   // Range: 7.0f to 15.0f
+        float z = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; // Range: -10.0f to 10.0f
+
+        // Render the star
+        glPushMatrix();
+        glTranslatef(x, y, z);
+        draw2DDiamondStar(1.0f, 1.0f, 1.0f, 1.0f); // Adjust the size and color as needed
+        glPopMatrix();
+    } 
+    
 
 }
-
