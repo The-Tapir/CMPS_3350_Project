@@ -103,66 +103,48 @@ glPopMatrix();
 }
 void drawTrack() {
     glBegin(GL_TRIANGLES);
-    for (std::vector<unsigned int>::size_type i = 0; i < racetrack.indices.size(); i += 3) {
-        unsigned int index1 = racetrack.indices[i];
-        unsigned int index2 = racetrack.indices[i + 1];
-        unsigned int index3 = racetrack.indices[i + 2];
-  glColor3f(0.3, 0.3, 0.3);  
+    for (std::vector<unsigned int>::size_type i = 0; i < terrain.indices.size(); i += 3) {
+        unsigned int index1 = terrain.indices[i];
+        unsigned int index2 = terrain.indices[i + 1];
+        unsigned int index3 = terrain.indices[i + 2];
+  glColor3f(0.0, 0.8, 0.0);  
        
-  glVertex3fv(racetrack.vertices[index1].position);
-        glVertex3fv(racetrack.vertices[index2].position);
-        glVertex3fv(racetrack.vertices[index3].position);
+  glVertex3fv(terrain.vertices[index1].position);
+        glVertex3fv(terrain.vertices[index2].position);
+        glVertex3fv(terrain.vertices[index3].position);
     }
     //glEnd();
     glEnd();
     //glPopMatrix();    
 //    
 }    
-void drawterrain() {
+void drawTerrain() {
     glBegin(GL_TRIANGLES);
     for (std::vector<unsigned int>::size_type i = 0; i < racetrack.indices.size(); i += 3) {
         unsigned int index1 = racetrack.indices[i];
             unsigned int index2 = racetrack.indices[i + 1];
         unsigned int index3 = racetrack.indices[i + 2];
         // Assuming racetrack.vertices is a vector of Vertex
-        glColor3f(0.0, 0.8, 0.0);  // Black color for the race track
+        glColor3f(0.3, 0.3, 0.3);  // Black color for the race track
         glVertex3fv(racetrack.vertices[index1].position);
         glVertex3fv(racetrack.vertices[index2].position);
         glVertex3fv(racetrack.vertices[index3].position);
     }
     glEnd();
-    // Draw grass in the middle of the track
-    glBegin(GL_TRIANGLES);
-    glColor3f(0.0, 1.0, 0.0);  // Green color for the grass
-  
-    glVertex3f(-1.0, -0.5, 0.0);
-    glVertex3f(1.0, -0.5, 0.0);
-    glVertex3f(1.0, -1.0, 0.0);
-   //glVertex3f(-1.0, -1.0, 0.0);
-    glVertex3f(-1.0, -0.5, 0.0);
-    glVertex3f(1.0, -0.5, 0.0);
-    glVertex3f(1.0, -1.0, 0.0);
-    glVertex3f(-1.0, -0.5, 0.0);
-    glVertex3f(1.0, -0.5, 0.0);
-    glVertex3f(1.0, -1.0, 0.0);
-    glVertex3f(-1.0, -0.5, 0.0);
-    glVertex3f(1.0, -0.5, 0.0);
-    glVertex3f(1.0, -1.0, 0.0);
-    glEnd();
-}
-void renderTree3D() {
-    // Trunk parameters
+   }
+void drawTree3D() {
+    // This is a measure of the Trunk or bottom of the tree
     float trunkRadius = 0.1f;
     float trunkHeight = 0.5f;
     int trunkSlices = 20;
-    // Leaves parameters
+    // Below functions will measure the trees
     float leavesRadius = 0.3f;
     float leavesHeight = 0.5f;
     int leavesSlices = 20;
     glPushMatrix(); 
-    glScalef(5.0f, 5.0f, 5.0f);  // Scale the entire tree
-    // Draw trunk (cylinder)
-    glColor3f(0.5f, 0.35f, 0.05f); // Brown color
+    glScalef(5.0f, 5.0f, 5.0f); 
+    
+    glColor3f(0.5f, 0.35f, 0.05f); // Just draw the color of the trunk a Brown color
     glBegin(GL_QUAD_STRIP);
     for (int i = 0; i <= trunkSlices; i++) {
         float angle = 2.0f * M_PI * i / trunkSlices;
@@ -172,22 +154,19 @@ void renderTree3D() {
         glVertex3f(x, trunkHeight, z);
     }
     glEnd();
-    // Draw leaves (cone)
+    
     glColor3f(0.0f, 0.8f, 0.0f); // Green color
     glBegin(GL_TRIANGLE_FAN);
-    glVertex3f(0.0f, trunkHeight + leavesHeight, 0.0f); // Top of the cone (apex)
+    glVertex3f(0.0f, trunkHeight + leavesHeight, 0.0f); //This will measure the very top of the tree or leaves.
     for (int i = 0; i <= leavesSlices; i++) {
         float angle = 2.0f * M_PI * i / leavesSlices;
         float x = leavesRadius * cos(angle);
         float z = leavesRadius * sin(angle);
     glVertex3f(x, trunkHeight, z);
     }
-    
     glEnd();
     glPopMatrix();  
 }
-
-
 void drawSphere(float radius, int slices, int stacks, GLfloat r, GLfloat g, GLfloat b) {
     glColor3f(r, g, b);
     glBegin(GL_TRIANGLE_FAN);
@@ -197,26 +176,25 @@ void drawSphere(float radius, int slices, int stacks, GLfloat r, GLfloat g, GLfl
             float theta = 2.0f * M_PI * j / slices;
             float x = radius * sin(phi) * cos(theta);
             float y = radius * cos(phi);
-           float z = radius * sin(phi) * sin(theta);
+            float z = radius * sin(phi) * sin(theta);
             glVertex3f(x, y, z);
         }
     }
     glEnd();
 }
 
-void renderStoplight() {
-    // Pole parameters
+void drawStoplight() {
     float poleRadius = 0.05f;
     float poleHeight = 2.0f;
 
-    // Light parameters
+    // Measure the of the light ball circle.
     float lightRadius = 0.2f;
 
     glPushMatrix();
     // Adjust the position of the stoplight
     glTranslatef(0.0f, -1.0f, 0.0f);
 
-    // Draw pole (cylinder)
+    // This function below will draw the color of the pole and also make it into the shape we want it which is a cylinder.
     glColor3f(0.3f, 0.3f, 0.3f); // Gray color
     glBegin(GL_QUAD_STRIP);
     for (int i = 0; i <= 20; i++) {
@@ -228,29 +206,27 @@ void renderStoplight() {
     }
     glEnd();
 
-    // Draw red light (sphere)
+    //This will make one of the colors red 
     glTranslatef(0.0f, poleHeight, 0.0f);
     drawSphere(lightRadius, 20, 20, 1.0f, 0.0f, 0.0f);
 
-    // Draw yellow light (sphere)
+    // One of the ligts will be yellow
     glTranslatef(0.0f, lightRadius * 2.0f, 0.0f);
     drawSphere(lightRadius, 20, 20, 1.0f, 1.0f, 0.0f);
 
-    // Draw green light (sphere)
+    //One of the lights will be green 
     glTranslatef(0.0f, lightRadius * 2.0f, 0.0f);
     drawSphere(lightRadius, 20, 20, 0.0f, 1.0f, 0.0f);
 
     glPopMatrix();
 }
 
-void renderStartLine() {
+void drawStartLine() {
     float lineWidth = 10.0f;
     float lineLength = 6.3555f;
 
     glPushMatrix();
-    glTranslatef(0.0f, 0.0f, -5.0f);  // Adjust the z-coordinate as needed
-
-    // Draw the white line 
+    glTranslatef(0.0f, 0.0f, -5.0f);  
     glColor3f(1.0f, 1.0f, 1.0f);  // White color
     glLineWidth(lineWidth);
     glBegin(GL_LINES);
@@ -283,120 +259,82 @@ void draw2DDiamondStar(float size, GLfloat r, GLfloat g, GLfloat b) {
     glColor3f(255, 255, 255);
     glBegin(GL_TRIANGLES);
 
-    // Draw the diamond star using two triangles
-    glVertex2f(0.0f, size / 2.0f);            // Top point
-    glVertex2f(size / 2.0f, 0.0f);            // Right point
-    glVertex2f(0.0f, -size / 2.0f);           // Bottom point
+    // The way we drew the stars was by making two triangles 
+    glVertex2f(0.0f, size / 2.0f);            
+    glVertex2f(size / 2.0f, 0.0f);            
+    glVertex2f(0.0f, -size / 2.0f);         
 
-    glVertex2f(0.0f, size / 2.0f);            // Top point
-    glVertex2f(-size / 2.0f, 0.0f);           // Left point
-    glVertex2f(0.0f, -size / 2.0f);           // Bottom point
+    glVertex2f(0.0f, size / 2.0f);            
+    glVertex2f(-size / 2.0f, 0.0f);           
+    glVertex2f(0.0f, -size / 2.0f);           
 
     glEnd();
 }
 
-
-/*
-//bool starsInitialized = false;  // Variable to track whether stars are initialized
-
-void initializeStars() {
-     
-//    bool starsInitialized = false;  // Variable to track whether stars are initialized
-
-    if (!starsInitialized) {
-        srand(static_cast<unsigned int>(time(nullptr)));
-
-        // Render 100 stars
-        for (int i = 0; i < 250; ++i) {
-            // Generate random coordinates
-            float x = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; // Range: -10.0f to 10.0f
-            float y = static_cast<float>(rand()) / RAND_MAX * 8.0f + 7.0f;   // Range: 7.0f to 15.0f
-            float z = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; // Range: -10.0f to 10.0f
-
-            // Render the star
-            glPushMatrix();
-            glTranslatef(x, y, z);
-            draw2DDiamondStar(1.0f, 1.0f, 1.0f, 1.0f); // Adjust the size and color as needed
-            glPopMatrix();
-        }
-
-        starsInitialized = true;  // Set the flag to true after initialization
-    }
-}
-*/
-
-
-
-void renderScene() {
+//This function below just pretty much adjusts the positions of functions and we call startline, stoplight, moon, and stars in here. Then we call drawScene in in car.cpp
+void drawScene() {
     
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(13.735f, 0.6f, 7.0f);  // Adjust the z-coordinate as needed
-    renderStartLine();
+    glTranslatef(13.735f, 0.6f, 7.0f);  
+    drawStartLine();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(9.5f, 0.7f, -2.0f); 
+    drawStoplight();
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(9.5f, 0.7f, -2.0f); // Adjust the position of the stoplight
-    renderStoplight();
+    glTranslatef(18.5f, 0.8f, -2.0f); 
+    drawStoplight();
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(18.5f, 0.8f, -2.0f); // Adjust the position of the stoplight
-    renderStoplight();
+    glTranslatef(-4.5f, 0.0f, -2.0f); 
+    drawTree3D();
+    glPopMatrix();
+
+    
+    glPushMatrix();
+    glTranslatef(-4.0f, 0.0f, 6.0f);
+    drawTree3D();
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(-4.5f, 0.0f, -2.0f); // Adjust the position of the first tree
-    renderTree3D();
-    glPopMatrix();
-
-    // Render the second tree near car
-    glPushMatrix();
-    glTranslatef(-4.0f, 0.0f, 6.0f); // Adjust the position of the second tree
-    renderTree3D();
-    glPopMatrix();
-
-  // Render the third tree
-
-    glPushMatrix();
-    glTranslatef(4.0f, -0.2f, -2.0f); // Adjust the position of the third tree
-    renderTree3D();
-    glPopMatrix();
-
-// 4th tree
-
-    glPushMatrix();
-    glTranslatef(-8.0f, -0.2f, -2.0f); // Adjust the position of the third tree
-    renderTree3D();
-    glPopMatrix();
-
-//5th tree
-
-    glPushMatrix();
-    glTranslatef(9.0f, -0.2f, -14.0f); // Adjust the position of the third tree
-    renderTree3D();
+    glTranslatef(4.0f, -0.2f, -2.0f); 
+    drawTree3D();
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(30.0f, 20.0f, -70.0f); // Adjust the position of the moon
-    drawMoon(3.0f, 50, 50, 1.0f, 1.0f, 1.0f); // Customize the parameters as needed
+    glTranslatef(-8.0f, -0.2f, -2.0f); 
+    drawTree3D();
     glPopMatrix();
 
 
+
+    glPushMatrix();
+    glTranslatef(9.0f, -0.2f, -14.0f); 
+    drawTree3D();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(30.0f, 20.0f, -70.0f); 
+    drawMoon(3.0f, 50, 50, 1.0f, 1.0f, 1.0f); 
+    glPopMatrix();
+
+    //This srand function will randomise the stars position.
      srand(static_cast<unsigned int>(time(nullptr)));
 
-    // Render 100 stars
+    //This for loop below will draw out 100 stars
     for (int i = 0; i < 250; ++i) {
-        // Generate random coordinates
-        float x = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; // Range: -10.0f to 10.0f
-        float y = static_cast<float>(rand()) / RAND_MAX * 20.0f + 10.0f;   // Range: 7.0f to 15.0f
-        float z = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; // Range: -10.0f to 10.0f
-
-        // Render the star
+        //These two coordinates below are the coordinates for the stars
+        float x = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; 
+        float y = static_cast<float>(rand()) / RAND_MAX * 20.0f + 10.0f;           float z = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; 
+        // draw the star
         glPushMatrix();
         glTranslatef(x, y, z);
-        draw2DDiamondStar(1.0f, 1.0f, 1.0f, 1.0f); // Adjust the size and color as needed
+        draw2DDiamondStar(1.0f, 1.0f, 1.0f, 1.0f); 
         glPopMatrix();
     } 
     

@@ -636,12 +636,12 @@ void render()
 	} else if (gameState == PLAY) {
 		//drawStreet();
         drawTrack();
-        drawterrain();
-        renderTree3D();
+        drawTerrain();
+        drawTree3D();
        
         physics();
         drawAzuritaCar(Pos1, Pos2, Pos3);
-       renderScene();
+       drawScene();
 	} else if (gameState == HIGHSCORE) {
 		drawHighscore();
 	}

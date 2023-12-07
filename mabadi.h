@@ -12,7 +12,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <cmath>
-//
+
 
 struct Vertex {
     float position[3];
@@ -20,20 +20,21 @@ struct Vertex {
     float uv[2];
 };
 struct OBJMesh {
+    //Here are the verticies below
     std::vector<Vertex> vertices;
-    std::vector<unsigned int> indices; // Add indices for faces
-    std::vector<Vertex> obstacles;  // New vector to store obstacle vertices
+    //here are the indicies below 
+    std::vector<unsigned int> indices;
+    std::vector<Vertex> obstacles;  
 };
 OBJMesh loadOBJ(const std::string& racetrack);
 int time_since_mouse_moved(const bool get);
 void drawTrack(); 
-void drawterrain();
+void drawTerrain();
 void drawGuardRails();
-//void renderStoplight();
-void renderTree3D();
+void drawTree3D();
 void drawLeaves();
 void drawTrunk();
-void renderScene();
+void drawScene();
 void drawMoon(float radius, int slices, int stacks, GLfloat r, GLfloat g, GLfloat b);
 void draw2DDiamondStar(float size, GLfloat r, GLfloat g, GLfloat b);
 void initializeStars();
