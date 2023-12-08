@@ -4,7 +4,9 @@
 //date:    summer 2017
 //
 //Framework for group attempting a 3D game.
+#include "common.h"
 
+/*
 #include <stdio.h>
 #include <stdlib.h>
 #include <chrono>
@@ -26,13 +28,16 @@
 #include "fonts.h"
 #include "nwardinsky.h"
 #include "mabadi.h"
-
+#include "common.h"
 #include "dayeni.h"
 #include "azurita.h"
 #include <string>
+*/
+
 typedef float Flt;
 typedef Flt Vec[3];
 typedef Flt	Matrix[4][4];
+
 
 //Variables added by Nathan
 int timed = 0;
@@ -40,12 +45,14 @@ bool show_stats = false;
 //Variables added by David
 int selectedOption = 0;// 0 represents "Play" as the default selection
 enum GameState { MENU, PLAY, HIGHSCORE, EXIT};
+
 GameState gameState = MENU;
 extern float Pos1;
 extern float Pos2;
 extern float Pos3;
 extern float theta;
 
+//GameState gameState = MENU;
 //-----------------------------
 //some defined macros
 #define MakeVector(x, y, z, v) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)
@@ -110,7 +117,7 @@ class Global {
             MakeVector(100.0f, 240.0f, 40.0f, lightPosition);
             lightPosition[3] = 1.0f;
 
-            cameraAngle = PI * (PI * 0.5);
+            cameraAngle = (PI/2) - theta;
         }
 } g;
 
@@ -316,35 +323,28 @@ int check_keys(XEvent *e)
         //---------------------------------------------
         switch(key) {
             case XK_Up:
-                /*if(selectedOption > 0) {
+                if(selectedOption > 0) {
                   selectedOption--;
                   }
-                  g.cameraPosition[2] -= 0.1;
-                  Pos3 -= 0.1f;*/
-                dir[0] = cos(1.571 - theta);
-                dir[2] = sin(1.571 - theta);
-                dir[1] = 0.0;
-
+               
                 // Move the car forward in the calculated direction
-                Pos1 += dir[0];
-                Pos3 += dir[2];
+                Pos1 += cos((PI/2) - theta);
+                Pos3 += sin((PI/2) - theta);
 
+                g.cameraPosition[0] = Pos1;
+                g.cameraPosition[2] = Pos3 + 6.0f;
+		g.cameraAngle = (PI/2)-theta;
                 break;
             case XK_Down:
                 if(selectedOption < 2) {
                     selectedOption++;
                 }
-                /*	g.cameraPosition[2] += 0.1;
-                    Pos3 += 0.1f;
-                    */
-                dir[0] = cos(1.571 - theta);
-                dir[2] = sin(1.571 - theta);
-                dir[1] = 0.0;
-
                 // Move the car backwards in the calculated direction
-                Pos1 -= dir[0];
-                Pos3 -= dir[2];
-
+                Pos1 -= cos((PI/2) - theta);
+                Pos3 -= sin((PI/2) - theta);
+                g.cameraPosition[0] = Pos1;
+                g.cameraPosition[2] = Pos3 + 6.0f;
+		g.cameraAngle = (PI/2)-theta;
                 break;
             case XK_Return:
                 if(selectedOption == 0) {
@@ -366,12 +366,31 @@ int check_keys(XEvent *e)
                 g.cameraPosition[0] -= 0.1;
                 break;
             case XK_q:
-                Pos3 -= 1.0f;
-                theta += 0.05f;
+                /*
+		theta += 0.05f;
+                Pos3 += cos((PI*0.5) - theta);
+                g.cameraPosition[0] = Pos1;
+                g.cameraPosition[2] = Pos3 + 6.0f;
+		g.cameraAngle = (PI*0.5) - theta;
+
+		std::cout<<g.cameraAngle<<","<<theta<<".";
+		*/
+		 theta += 0.05f;
+
+                // Move the car in the calculated direction
+               
+//		Pos1 += cos((PI/2) - theta);
+              Pos3 += sin((PI/2) - theta);
+
+          //     g.cameraPosition[0] = Pos1;
+                g.cameraPosition[2] = Pos3 + 6.0f;
+		g.cameraAngle = (PI/2)-theta;
                 break;
             case XK_e:
                 Pos3 -= 1.0f;
                 theta -= 0.05f;
+                  g.cameraPosition[2] += 1.0f;
+		  g.cameraAngle += 0.05f;
 
             case XK_b:
                 break;
