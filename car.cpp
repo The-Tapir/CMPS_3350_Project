@@ -450,6 +450,9 @@ int check_keys(XEvent *e)
                 if (gameState != MENU) {
                     gameState = MENU;
                 }
+                else {
+                    return 1;
+                }
                 break;
         }
     }
