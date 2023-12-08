@@ -410,7 +410,7 @@ int check_keys(XEvent *e)
 
             case XK_w:
                 //move car forward
-               // playCarSound();
+		PlaySound("./sounds/car_sound.wav");
                 dir[0] = cos(g.cameraAngle);
                 dir[2] = sin(g.cameraAngle);
                 dir[1] = 0.0;
@@ -428,6 +428,7 @@ int check_keys(XEvent *e)
 
             case XK_s:
                 //move car backwards
+		PlaySound("./sounds/brake.wav");
                 dir[0] = cos(g.cameraAngle);
                 dir[2] = sin(g.cameraAngle);
                 dir[1] = 0.0;
