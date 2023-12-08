@@ -1,8 +1,7 @@
-//Name: David Ayeni
-
+// Name: David Ayeni
 #include "dayeni.h"
 
-//Variables for Car Position and Angle
+// Variables for Car Position and Angle
 float Pos1 = 13.99999f;
 float Pos2 = 1.2547f;
 float Pos3 = 9.65f;
@@ -12,7 +11,7 @@ float Cam2 = 2.250f;
 float Cam3 = 12.650f;
 float CamAngle = (PI*0.5) - theta;
 
-//Menu Screen
+// Menu Screen
 void drawMenu(int xres, int yres, int selectedOption) {
     glClearColor(0.00f, 0.0f, 0.0f, 1.0f);
 
@@ -68,24 +67,23 @@ void drawMenu(int xres, int yres, int selectedOption) {
     }
 }
 
-
 void drawControls(int xres, int yres, int selectedOption) {
     glClearColor(0.00f, 0.0f, 0.0f, 1.0f);
 
-   glMatrixMode(GL_PROJECTION);
+    glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0, xres, 0, yres);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-   float OptionWidth = xres * 0.08;
+    float OptionWidth = xres * 0.08;
     float OptionHeight = yres * 0.2;
     float spacing = yres * 0.001;
 
-   float centerX = xres * 0.5;
+    float centerX = xres * 0.5;
     float centerY = yres * 0.5;
 
-   float startY = centerY + ((OptionHeight * 3.5) + (spacing * 2)) * 0.4;
+    float startY = centerY + ((OptionHeight * 3.5) + (spacing * 2)) * 0.4;
     float offsetX = -30.0;
     float startX = centerX - (OptionWidth * 0.5) - offsetX; 
     Rect r;
@@ -120,65 +118,78 @@ void drawControls(int xres, int yres, int selectedOption) {
 }
 
 float mouseMovement(XEvent *e, const bool get) {
-	static float count = 0;
-	static float prevx = e->xbutton.x;
-	static float prevy = e->xbutton.y;
+    static float count = 0;
+    static float prevx = e->xbutton.x;
+    static float prevy = e->xbutton.y;
 
-	if(!get) {
-		if ( (e->xbutton.x != prevx) || (e->xbutton.y != prevy) ) {
-			float dx = e->xbutton.x - prevx;
-			float dy = e->xbutton.y - prevy;
-			count += (sqrt((dx*dx) + (dy*dy)));
-		}
+    if(!get) {
+        if ((e->xbutton.x != prevx) || (e->xbutton.y != prevy)) {
+            float dx = e->xbutton.x - prevx;
+            float dy = e->xbutton.y - prevy;
+            count += (sqrt((dx*dx) + (dy*dy)));
+        }
 
-		prevx = e->xbutton.x;
-		prevy = e->xbutton.y;
-		return 0;
-	} else {
-		return count;
-	}
+        prevx = e->xbutton.x;
+        prevy = e->xbutton.y;
+        return 0;
+    } else {
+        return count;
+    }
 }
 
 void CarMovement(std::string key) {
-	if (key == "up") {
-		                // Move the car forward in the calculated direction
-                Pos1 += cos((PI*0.5) - theta);
-                Pos3 += sin((PI*0.5) - theta);
+    if (key == "up") {
+        // Move the car forward in the calculated direction
+        Pos1 += cos((PI*0.5) - theta);
+        Pos3 += sin((PI*0.5) - theta);
 
-                g.cameraPosition[0] = Pos1;
-                g.cameraPosition[2] = Pos3 + 6.0f;
-		g.cameraAngle = (PI*0.5)-theta;
-	}
-	if (key == "down") {
-	 // Move the car backwards in the calculated direction
-		Pos1 -= cos((PI*0.5) - theta);
-                Pos3 -= sin((PI*0.5) - theta);
-                g.cameraPosition[0] = Pos1;
-                g.cameraPosition[2] = Pos3 + 6.0f;
-		g.cameraAngle = (PI*0.5)-theta;
-	}
-	if (key == "q") {
-		/*
-		theta += 0.05f;
-                Pos3 += cos((PI*0.5) - theta);
-                g.cameraPosition[0] = Pos1;
-                g.cameraPosition[2] = Pos3 + 6.0f;
-		g.cameraAngle = (PI*0.5) - theta;
+        g.cameraPosition[0] = Pos1;
+        g.cameraPosition[2] = Pos3 + 6.0f;
+        g.cameraAngle = (PI*0.5)-theta;
+    }
+    if (key == "down") {
+        // Move the car backwards in the calculated direction
+        Pos1 -= cos((PI*0.5) - theta);
+        Pos3 -= sin((PI*0.5) - theta);
+        g.cameraPosition[0] = Pos1;
+        g.cameraPosition[2] = Pos3 + 6.0f;
+        g.cameraAngle = (PI*0.5)-theta;
+    }
+    if (key == "q") {
+        /*
+        theta += 0.05f;
+        Pos3 += cos((PI*0.5) - theta);
+        g.cameraPosition[0] = Pos1;
+        g.cameraPosition[2] = Pos3 + 6.0f;
+        g.cameraAngle = (PI*0.5) - theta;
 
-		std::cout<<g.cameraAngle<<","<<theta<<".";
-		*/
-		 theta += 0.05f;
+        std::cout<<g.cameraAngle<<","<<theta<<".";
+        */
+        theta += 0.05f;
 
-                // Move the car in the calculated direction
-               
-//		Pos1 += cos((PI/2) - theta);
-              Pos3 += sin((PI/2) - theta);
+        // Move the car in the calculated direction
+        Pos3 += sin((PI/2) - theta);
 
-          //     g.cameraPosition[0] = Pos1;
-                g.cameraPosition[2] = Pos3 + 6.0f;
-		g.cameraAngle = (PI/2)-theta;
+        g.cameraPosition[2] = Pos3 + 6.0f;
+        g.cameraAngle = (PI/2)-theta;
+    }
+    if (key == "e") {
+        /*
+        theta += 0.05f;
+        Pos3 += cos((PI*0.5) - theta);
+        g.cameraPosition[0] = Pos1;
+        g.cameraPosition[2] = Pos3 + 6.0f;
+        g.cameraAngle = (PI*0.5) - theta;
 
-	}
+        std::cout<<g.cameraAngle<<","<<theta<<".";
+        */
+        theta -= 0.05f;
+
+        // Move the car in the calculated direction
+        Pos3 += sin((PI/2) - theta);
+
+        g.cameraPosition[2] = Pos3 + 6.0f;
+        g.cameraAngle = (PI/2)-theta;
+    }
 }
-
 
