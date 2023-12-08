@@ -18,6 +18,7 @@ int total_render_function_calls(bool);
 int total_physics_function_calls(bool);
 int key_presses(bool);
 float car_acceleration(bool);
+float car_slow_down();
 void cleanupAL();
 void PlaySound(const char* SoundFile);
 #endif

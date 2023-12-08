@@ -420,6 +420,9 @@ int check_keys(XEvent *e)
                 //g.cameraPosition[1] += car_acceleration(true);
                 //g.cameraPosition[2] += car_acceleration(true);
 
+		dir[0] *= car_acceleration(true);
+		dir[2] *= car_acceleration(true);
+
                 VecAdd(g.cameraPosition, dir, g.cameraPosition);
                 break;
 
@@ -428,6 +431,10 @@ int check_keys(XEvent *e)
                 dir[0] = cos(g.cameraAngle);
                 dir[2] = sin(g.cameraAngle);
                 dir[1] = 0.0;
+
+		dir[0] *= car_slow_down();
+		dir[2] *= car_slow_down();
+
                 VecSub(g.cameraPosition, dir, g.cameraPosition);
                 break;
 
