@@ -19,5 +19,5 @@ int total_physics_function_calls(bool);
 int key_presses(bool);
 float car_acceleration(bool);
 void cleanupAL();
-void playCarSound();
+void PlaySound(const char* SoundFile);
 #endif

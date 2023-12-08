@@ -98,10 +98,10 @@ float car_acceleration(bool gas) {
 	return velocity;
 }
 
-void playCarSound() {
+void PlaySound(const char* AudioFile) {
 	ALuint buffer, source;
 
-	buffer = alutCreateBufferFromFile("./sounds/car_sound.wav");
+	buffer = alutCreateBufferFromFile(AudioFile);
 	alGenSources(1,&source);
 	alSourcef(source, AL_GAIN, 0.05f);
 	alSourcei(source, AL_BUFFER, buffer);

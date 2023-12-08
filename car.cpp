@@ -217,9 +217,8 @@ int main()
     init_opengl();
     init();
     int done = 0;
-    //----------------------------
     total_running_time(false);
-    //----------------------------
+    PlaySound("./sounds/background_music.wav");
     while ( (!done) && (gameState != EXIT) ) {
         while (x11.getXPending()) {
             XEvent e = x11.getXNextEvent();
@@ -411,7 +410,7 @@ int check_keys(XEvent *e)
 
             case XK_w:
                 //move car forward
-                playCarSound();
+               // playCarSound();
                 dir[0] = cos(g.cameraAngle);
                 dir[2] = sin(g.cameraAngle);
                 dir[1] = 0.0;
@@ -645,6 +644,7 @@ void render()
 {
     total_render_function_calls(false);
     Rect r;
+    glClearColor(0.00f, 0.0f, 0.0f, 1.0f);
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
     //
     //3D mode
@@ -679,8 +679,7 @@ void render()
     if (gameState == MENU) {
         drawMenu(g.xres, g.yres, selectedOption);
     } else if (gameState == PLAY) {
-        //drawStreet();
-        drawTrack();
+	drawTrack();
         drawTerrain();
         drawTree3D();
         createImages();
