@@ -12,6 +12,7 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 #include <cmath>
+#include "common.h"
 
 void drawAzuritaCar(float Pos1, float Pos2, float Pos3, float theta);
 int total_time_since_key_press(const bool get);
