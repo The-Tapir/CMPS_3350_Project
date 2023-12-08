@@ -90,12 +90,12 @@ float car_acceleration(bool gas) {
 	}
 
 	if (gas) {
-		velocity += .05;
+		velocity += .025;
 	}
 
 	else {
 		if (velocity > 0) {
-			velocity -= .01;
+			velocity -= .005;
 		}
 
 	}
@@ -106,7 +106,7 @@ float car_slow_down() {
 
 	float velocity = 0.0;
 
-	velocity -= .03;
+	velocity -= .1;
 
 	return velocity;
 }

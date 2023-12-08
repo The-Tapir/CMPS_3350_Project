@@ -423,20 +423,23 @@ int check_keys(XEvent *e)
 		dir[0] *= car_acceleration(true);
 		dir[2] *= car_acceleration(true);
 
-                VecAdd(g.cameraPosition, dir, g.cameraPosition);
+
+                //VecAdd(g.cameraPosition, dir, g.cameraPosition);
                 break;
 
             case XK_s:
                 //move car backwards
 		PlaySound("./sounds/brake.wav");
+
                 dir[0] = cos(g.cameraAngle);
                 dir[2] = sin(g.cameraAngle);
                 dir[1] = 0.0;
 
+
 		dir[0] *= car_slow_down();
 		dir[2] *= car_slow_down();
 
-                VecSub(g.cameraPosition, dir, g.cameraPosition);
+                VecAdd(g.cameraPosition, dir, g.cameraPosition);
                 break;
 
             case XK_Tab:
@@ -644,7 +647,18 @@ void physics()
 
 
     //
+ 
+
+	Vec dir;
     car_acceleration(false);
+
+    if (car_acceleration(false) > 0) {
+    dir[0] = cos(g.cameraAngle);
+    dir[2] = sin(g.cameraAngle);
+    dir[1] = 0.0;
+
+    VecAdd(g.cameraPosition, dir, g.cameraPosition);
+    }
     total_physics_function_calls(false);
 }
 
