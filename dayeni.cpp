@@ -1,7 +1,18 @@
 //Name: David Ayeni
-//
 
 #include "dayeni.h"
+
+//Variables for Car Position and Angle
+float Pos1 = 13.99999f;
+float Pos2 = 1.2547f;
+float Pos3 = 9.65f;
+float theta = 3.151f;
+float Cam1 = 13.9999f;
+float Cam2 = 2.250f;
+float Cam3 = 12.650f;
+float CamAngle = (PI*0.5) - theta;
+
+//Menu Screen
 void drawMenu(int xres, int yres, int selectedOption) {
     glClearColor(0.00f, 0.0f, 0.0f, 1.0f);
 
@@ -128,11 +139,46 @@ float mouseMovement(XEvent *e, const bool get) {
 	}
 }
 
+void CarMovement(std::string key) {
+	if (key == "up") {
+		                // Move the car forward in the calculated direction
+                Pos1 += cos((PI*0.5) - theta);
+                Pos3 += sin((PI*0.5) - theta);
 
-/*
-void exitGame() {
-	cleanup_fonts(); // Cleanup any resources
-	return 0; // Close the X display
-	exit(0); // Exit the program
+                g.cameraPosition[0] = Pos1;
+                g.cameraPosition[2] = Pos3 + 6.0f;
+		g.cameraAngle = (PI*0.5)-theta;
+	}
+	if (key == "down") {
+	 // Move the car backwards in the calculated direction
+		Pos1 -= cos((PI*0.5) - theta);
+                Pos3 -= sin((PI*0.5) - theta);
+                g.cameraPosition[0] = Pos1;
+                g.cameraPosition[2] = Pos3 + 6.0f;
+		g.cameraAngle = (PI*0.5)-theta;
+	}
+	if (key == "q") {
+		/*
+		theta += 0.05f;
+                Pos3 += cos((PI*0.5) - theta);
+                g.cameraPosition[0] = Pos1;
+                g.cameraPosition[2] = Pos3 + 6.0f;
+		g.cameraAngle = (PI*0.5) - theta;
+
+		std::cout<<g.cameraAngle<<","<<theta<<".";
+		*/
+		 theta += 0.05f;
+
+                // Move the car in the calculated direction
+               
+//		Pos1 += cos((PI/2) - theta);
+              Pos3 += sin((PI/2) - theta);
+
+          //     g.cameraPosition[0] = Pos1;
+                g.cameraPosition[2] = Pos3 + 6.0f;
+		g.cameraAngle = (PI/2)-theta;
+
+	}
 }
-*/
+
+

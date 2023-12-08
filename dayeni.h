@@ -11,12 +11,13 @@
 #include <GL/glu.h>
 #include <GL/glx.h>
 #include "fonts.h"
-
+#include "global.h"
+#include "common.h"
 
 void drawMenu(int xres, int yres, int selectedoption);
 void drawControls(int xres, int yres, int selectedOption );
-//void exitGame();
 float mouseMovement(XEvent *e, const bool get);
-
+void CarMovement(std::string key);
 
 #endif
+

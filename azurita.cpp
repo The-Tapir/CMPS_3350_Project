@@ -22,11 +22,6 @@ typedef float Flt;
 typedef Flt Vec[3];
 float wheelRotation = 0.0f;
 
-float Pos1 = 13.99999f;
-float Pos2 = 1.2547f;
-float Pos3 = 9.65f;
-float theta = 3.100f;
-
 #define MakeVector(x, y, z, v) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)
 
 static Vec carPosition;
