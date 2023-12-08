@@ -249,24 +249,6 @@ void drawMoon(float radius, int slices, int stacks, GLfloat r, GLfloat g, GLfloa
     }
     glEnd();
 }
-
-
-void draw2DDiamondStar(float size, GLfloat r, GLfloat g, GLfloat b) {
-    glColor3f(255, 255, 255);
-    glBegin(GL_TRIANGLES);
-
-    // The way we drew the stars was by making two triangles 
-    glVertex2f(0.0f, size / 2.0f);            
-    glVertex2f(size / 2.0f, 0.0f);            
-    glVertex2f(0.0f, -size / 2.0f);         
-
-    glVertex2f(0.0f, size / 2.0f);            
-    glVertex2f(-size / 2.0f, 0.0f);           
-    glVertex2f(0.0f, -size / 2.0f);           
-
-    glEnd();
-}
-
 //This function below just pretty much adjusts the positions of functions and we call startline, stoplight, moon, and stars in here. Then we call drawScene in in car.cpp
 void drawScene() {
 
@@ -318,23 +300,5 @@ void drawScene() {
     glTranslatef(30.0f, 20.0f, -70.0f); 
     drawMoon(3.0f, 50, 50, 1.0f, 1.0f, 1.0f); 
     glPopMatrix();
-
-    //We use this srand function below so it could just put our stars in random places 
-    srand(static_cast<unsigned int>(time(nullptr)));
-
-    //The for loop below will be able to mulitple stars instead of itn just outputting 1 for example
-    for (int i = 0; i < 250; ++i) {
-      
-       //Below these float functions and static functions will draw like two shapes and put them together to make the star.
-        float x = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; 
-        float y = static_cast<float>(rand()) / RAND_MAX * 20.0f + 10.0f;           
-        float z = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; 
-       
-        glPushMatrix();
-        glTranslatef(x, y, z);
-        draw2DDiamondStar(1.0f, 1.0f, 1.0f, 1.0f); 
-        glPopMatrix();
-    } 
-
 
 }

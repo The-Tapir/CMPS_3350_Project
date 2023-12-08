@@ -17,6 +17,9 @@ void drawAzuritaCar(float Pos1, float Pos2, float Pos3, float theta);
 int total_time_since_key_press(const bool get);
 void drawCarBody(float width, float height, float depth);
 void drawCarWheel(float radius, float height, int numSegments);
+void draw2DDiamondStar(float size, GLfloat r, GLfloat g, GLfloat b);
+void createImages();
+
 
 
 #endif

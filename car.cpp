@@ -683,7 +683,7 @@ void render()
         drawTrack();
         drawTerrain();
         drawTree3D();
-
+        createImages();
         physics();
         drawScene();
         drawAzuritaCar(Pos1, Pos2, Pos3, theta);

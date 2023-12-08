@@ -196,3 +196,48 @@ void drawCarWheel(float radius, float height, int numSegments) {
 	}
 	glEnd();
 }
+
+void draw2DDiamondStar(float size, GLfloat r, GLfloat g, GLfloat b) {
+    glColor3f(255, 255, 255);
+    glBegin(GL_TRIANGLES);
+
+    // two triangle to make a star
+
+    // first triangle
+    glVertex2f(0.0f, size / 2.0f);            // top vertex
+    glVertex2f(size / 2.0f, 0.0f);            //bottom right vertex
+    glVertex2f(0.0f, -size / 2.0f);         //bottom left vertex
+
+    // second triangle
+    glVertex2f(0.0f, size / 2.0f);
+    glVertex2f(-size / 2.0f, 0.0f);
+    glVertex2f(0.0f, -size / 2.0f);
+
+    glEnd();
+}
+
+
+void createImages()
+{
+
+    //srand to randomly display stars
+    srand(static_cast<unsigned int>(time(nullptr)));
+
+    //for loop to display multiple stars
+    for (int i = 0; i < 250; ++i) {
+
+       //randomly display the stars within a certain range
+
+        float x = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; // range for length
+        float y = static_cast<float>(rand()) / RAND_MAX * 20.0f + 10.0f;  //range for height
+        float z = static_cast<float>(rand()) / RAND_MAX * 120.0f - 60.0f; //range for depth
+
+
+      // displays the stars here
+        glPushMatrix();
+        glTranslatef(x, y, z);
+        draw2DDiamondStar(1.0f, 1.0f, 1.0f, 1.0f);
+        glPopMatrix();
+    }
+}
+
