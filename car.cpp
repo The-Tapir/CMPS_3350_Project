@@ -626,14 +626,14 @@ void render()
 	r.bot = g.yres - 20;
 	r.left = 10;
 	r.center = 0;
-	//------------------------------------------
+	
 	//Putting Stopwatch
 	ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
-	std::string text = "Time was: ";
-	text += std::to_string(timed);
+//	std::string text = "Time was: ";
+//	text += std::to_string(timed);
 
-	ggprint8b(&r, 16, 0x00887766, text.c_str()); 
-	//------------------------------------------
+//	ggprint8b(&r, 16, 0x00887766, text.c_str()); 
+	
 	if (show_stats) {
 		ggprint13(&r, 16, 0x00ffff00, "sec running time %i",
 				total_running_time(true));
@@ -651,8 +651,6 @@ void render()
 
 
 	}   
-	//------------------------------------------
-	//ggprint8b(&r, 16, 0x00887766, "Jerry Berry");
 	glPopAttrib();
 }
 
