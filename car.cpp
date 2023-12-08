@@ -44,7 +44,7 @@ int timed = 0;
 bool show_stats = false;
 //Variables added by David
 int selectedOption = 0;// 0 represents "Play" as the default selection
-enum GameState { MENU, PLAY, HIGHSCORE, EXIT};
+enum GameState { MENU, PLAY, CONTROLS, EXIT};
 
 GameState gameState = MENU;
 extern float Pos1;
@@ -351,7 +351,7 @@ int check_keys(XEvent *e)
                     drawStreet();
                     drawTrack();
                 } else if(selectedOption == 1) {
-                    gameState = HIGHSCORE;
+                  gameState = CONTROLS;
                 } else if(selectedOption == 2) {
                     gameState = EXIT;
                 }
@@ -420,11 +420,11 @@ int check_keys(XEvent *e)
                 //g.cameraPosition[1] += car_acceleration(true);
                 //g.cameraPosition[2] += car_acceleration(true);
 
-		dir[0] *= car_acceleration(true);
-		dir[2] *= car_acceleration(true);
+	//	dir[0] *= car_acceleration(true);
+	//	dir[2] *= car_acceleration(true);
 
 
-                //VecAdd(g.cameraPosition, dir, g.cameraPosition);
+                VecAdd(g.cameraPosition, dir, g.cameraPosition);
                 break;
 
             case XK_s:
@@ -436,10 +436,10 @@ int check_keys(XEvent *e)
                 dir[1] = 0.0;
 
 
-		dir[0] *= car_slow_down();
-		dir[2] *= car_slow_down();
+		//dir[0] *= car_slow_down();
+	//	dir[2] *= car_slow_down();
 
-                VecAdd(g.cameraPosition, dir, g.cameraPosition);
+                VecSub(g.cameraPosition, dir, g.cameraPosition);
                 break;
 
             case XK_Tab:
@@ -447,7 +447,10 @@ int check_keys(XEvent *e)
                 break;
                 //-----------------------------------------------------
             case XK_Escape:
-                return 1;
+                if (gameState != MENU) {
+                    gameState = MENU;
+                }
+                break;
         }
     }
     return 0;
@@ -709,8 +712,8 @@ void render()
         drawScene();
         drawAzuritaCar(Pos1, Pos2, Pos3, theta);
 
-    } else if (gameState == HIGHSCORE) {
-        drawHighscore();
+    } else if (gameState == CONTROLS) {
+        drawControls(g.xres, g.yres, selectedOption );
     }
 
 
